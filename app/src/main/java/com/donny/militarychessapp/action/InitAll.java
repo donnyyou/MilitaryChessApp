@@ -1,5 +1,6 @@
 package com.donny.militarychessapp.action;
 
+import com.donny.militarychessapp.R;
 import com.donny.militarychessapp.chess.Position;
 import com.donny.militarychessapp.var.Variable;
 
@@ -13,36 +14,36 @@ public class InitAll {
 	
 	public static void keyToImage()
     {
-        Variable.redKeyToImage.put("˾��", "pic\\siling1.png");
-        Variable.redKeyToImage.put("����", "pic\\junzhang1.png");
-        Variable.redKeyToImage.put("ʦ��", "pic\\shizhang1.png");
-        Variable.redKeyToImage.put("�ó�", "pic\\lvzhang1.png");
-        Variable.redKeyToImage.put("�ų�", "pic\\tuanzhang1.png");
-        Variable.redKeyToImage.put("Ӫ��", "pic\\yingzhang1.png");
-        Variable.redKeyToImage.put("����", "pic\\lianzhang1.png");
-        Variable.redKeyToImage.put("�ų�", "pic\\paizhang1.png");
-        Variable.redKeyToImage.put("����", "pic\\gongbing1.png");
-        Variable.redKeyToImage.put("����", "pic\\dilei1.png");
-        Variable.redKeyToImage.put("ը��", "pic\\zhadan1.png");
-        Variable.redKeyToImage.put("����", "pic\\junqi1.png");
-        Variable.redKeyToImage.put("blank", "pic\\1.png");
+        Variable.redKeyToImage.put("siling", R.drawable.siling1);
+        Variable.redKeyToImage.put("junzhang", R.drawable.junzhang1);
+        Variable.redKeyToImage.put("shizhang", R.drawable.shizhang1);
+        Variable.redKeyToImage.put("lvzhang", R.drawable.lvzhang1);
+        Variable.redKeyToImage.put("tuanzhang", R.drawable.tuanzhang1);
+        Variable.redKeyToImage.put("yingzhang", R.drawable.yingzhang1);
+        Variable.redKeyToImage.put("lianzhang", R.drawable.lianzhang1);
+        Variable.redKeyToImage.put("paizhang", R.drawable.paizhang1);
+        Variable.redKeyToImage.put("gongbing", R.drawable.gongbing1);
+        Variable.redKeyToImage.put("dilei", R.drawable.dilei1);
+        Variable.redKeyToImage.put("zhadan", R.drawable.zhadan1);
+        Variable.redKeyToImage.put("junqi", R.drawable.junqi1);
+        Variable.redKeyToImage.put("blank", R.drawable.blank1);
 
-        Variable.blueKeyToImage.put("˾��", "pic\\siling0.png");
-        Variable.blueKeyToImage.put("����", "pic\\junzhang0.png");
-        Variable.blueKeyToImage.put("ʦ��", "pic\\shizhang0.png");
-        Variable.blueKeyToImage.put("�ó�", "pic\\lvzhang0.png");
-        Variable.blueKeyToImage.put("�ų�", "pic\\tuanzhang0.png");
-        Variable.blueKeyToImage.put("Ӫ��", "pic\\yingzhang0.png");
-        Variable.blueKeyToImage.put("����", "pic\\lianzhang0.png");
-        Variable.blueKeyToImage.put("�ų�", "pic\\paizhang0.png");
-        Variable.blueKeyToImage.put("����", "pic\\gongbing0.png");
-        Variable.blueKeyToImage.put("����", "pic\\dilei0.png");
-        Variable.blueKeyToImage.put("ը��", "pic\\zhadan0.png");
-        Variable.blueKeyToImage.put("����", "pic\\junqi0.png");
-        Variable.blueKeyToImage.put("blank", "pic\\0.png");
-    }//����ͼƬӳ��
-	
-	public static void initPosLimit()//���ӵ�λ�õ�limit
+        Variable.blueKeyToImage.put("siling", R.drawable.siling0);
+        Variable.blueKeyToImage.put("junzhang", R.drawable.junzhang0);
+        Variable.blueKeyToImage.put("shizhang", R.drawable.shizhang0);
+        Variable.blueKeyToImage.put("lvzhang", R.drawable.lvzhang0);
+        Variable.blueKeyToImage.put("tuanzhang", R.drawable.tuanzhang0);
+        Variable.blueKeyToImage.put("yingzhang", R.drawable.yingzhang0);
+        Variable.blueKeyToImage.put("lianzhang", R.drawable.lianzhang0);
+        Variable.blueKeyToImage.put("paizhang", R.drawable.paizhang0);
+        Variable.blueKeyToImage.put("gongbing", R.drawable.gongbing0);
+        Variable.blueKeyToImage.put("dilei", R.drawable.dilei0);
+        Variable.blueKeyToImage.put("zhadan", R.drawable.zhadan0);
+        Variable.blueKeyToImage.put("junqi", R.drawable.junqi0);
+        Variable.blueKeyToImage.put("blank", R.drawable.blank0);
+    }
+
+    public static void initPosLimit()//pos limit
     {
         int posId = 1;
         for (int i=0; i < 12; i++)
@@ -62,7 +63,7 @@ public class InitAll {
         Variable.ChessPos[2].setIsActive(false);
         Variable.ChessPos[4].setIsActive(false);
         Variable.ChessPos[57].setIsActive(false);
-        Variable.ChessPos[59].setIsActive(false);//�ĸ���Ӫλ��,����Ҳ�ǲ�����  
+        Variable.ChessPos[59].setIsActive(false);
 
         Variable.ChessPos[12].setIsXingying(true);
         Variable.ChessPos[12].setRedOrBlue(2); //there is nothing
