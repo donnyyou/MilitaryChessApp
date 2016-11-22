@@ -1,7 +1,7 @@
 package com.donny.militarychessapp.context;
 
 /**
- * Created by youansheng on 2016/5/31.
+ * Created by youansheng on 2016/11/22.
  */
 import android.app.Application;
 
