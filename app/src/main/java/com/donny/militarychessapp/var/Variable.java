@@ -1,5 +1,8 @@
 package com.donny.militarychessapp.var;
 
+/**
+ * Created by youansheng on 2016/11/22.
+ */
 import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 
@@ -10,8 +13,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Variable {
-    public static HashMap<String, String> redKeyToImage = new HashMap<String, String>();
-    public static HashMap<String, String> blueKeyToImage = new HashMap<String, String>();
+    public static HashMap<String, Integer> redKeyToImage = new HashMap<String, Integer>();
+    public static HashMap<String, Integer> blueKeyToImage = new HashMap<String, Integer>();
     public static ImageView[] ItemBox = new ImageView[61];
     public static Position[] ChessPos = new Position[61];
     public static boolean isStart = false;
@@ -20,7 +23,7 @@ public class Variable {
     public static int clickIndex1 = 0;
     public static int clickIndex2 = 0;
     public static int GameMode = 1;
-    public static boolean controlBelong = true;//���ķ��߶���trueΪ�췽��falseΪ����
+    public static boolean controlBelong = true; //if red, true, else blue
     public static boolean isEnd = false;
     public static int searchDeepth = 1;
     public static boolean forDFS = false;
