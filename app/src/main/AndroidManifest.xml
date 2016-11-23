@@ -2,19 +2,31 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.donny.militarychessapp">
 
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".bluetooth.BlueToothMatchActivity">
+        </activity>
+
+        <receiver android:name=".bluetooth.BlueToothReceiver" >
+            <intent-filter android:priority="1000">
+                <action android:name="android.bluetooth.device.action.PAIRING_REQUEST"/>
+                <action android:name="android.bluetooth.device.action.FOUND" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
