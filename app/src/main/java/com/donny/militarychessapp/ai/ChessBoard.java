@@ -19,57 +19,57 @@ public class ChessBoard {
         {
             if (pos[i].getRedOrBlue() == side)
             {
-                if (pos[i].getName() == "����")
+                if (pos[i].getName() == "dilei")
                     sum += 5000;
-                else if (pos[i].getName() == "ը��")
+                else if (pos[i].getName() == "zhadan")
                     sum += 5000;
-                else if (pos[i].getName() == "����")
+                else if (pos[i].getName() == "junqi")
                     sum += INFINITED;
-                else if (pos[i].getName() == "����")
+                else if (pos[i].getName() == "gongbing")
                     sum += 1000;
-                else if (pos[i].getName() == "˾��")
+                else if (pos[i].getName() == "siling")
                     sum += 50000;
-                else if (pos[i].getName() == "����")
+                else if (pos[i].getName() == "junzhang")
                     sum += 25000;
-                else if (pos[i].getName() == "ʦ��")
+                else if (pos[i].getName() == "shizhang")
                     sum += 5000;
-                else if (pos[i].getName() == "�ó�")
+                else if (pos[i].getName() == "lvzhang")
                     sum += 2500;
-                else if (pos[i].getName() == "�ų�")
+                else if (pos[i].getName() == "tuanzhang")
                     sum += 500;
-                else if (pos[i].getName() == "Ӫ��")
+                else if (pos[i].getName() == "yingzhang")
                     sum += 250;
-                else if (pos[i].getName() == "����")
+                else if (pos[i].getName() == "lianzhang")
                     sum += 200;
-                else if (pos[i].getName() == "�ų�")
+                else if (pos[i].getName() == "paizhang")
                     sum += 100;
                 else sum += 0;
             }
             else
             {
-                if (pos[i].getName() == "����")
+                if (pos[i].getName() == "dilei")
                     sum2 += 5000;
-                else if (pos[i].getName() == "ը��")
+                else if (pos[i].getName() == "zhadan")
                     sum2 += 5000;
-                else if (pos[i].getName() == "����")
+                else if (pos[i].getName() == "junqi")
                     sum2 += INFINITED;
-                else if (pos[i].getName() == "����")
+                else if (pos[i].getName() == "gongbing")
                     sum2 += 1000;
-                else if (pos[i].getName() == "˾��")
+                else if (pos[i].getName() == "siling")
                     sum2 += 50000;
-                else if (pos[i].getName() == "����")
+                else if (pos[i].getName() == "junzhang")
                     sum2 += 25000;
-                else if (pos[i].getName() == "ʦ��")
+                else if (pos[i].getName() == "shizhang")
                     sum2 += 5000;
-                else if (pos[i].getName() == "�ó�")
+                else if (pos[i].getName() == "lvzhang")
                     sum2 += 2500;
-                else if (pos[i].getName() == "�ų�")
+                else if (pos[i].getName() == "tuanzhang")
                     sum2 += 500;
-                else if (pos[i].getName() == "Ӫ��")
+                else if (pos[i].getName() == "yingzhang")
                     sum2 += 250;
-                else if (pos[i].getName() == "����")
+                else if (pos[i].getName() == "lianzhang")
                     sum2 += 200;
-                else if (pos[i].getName() == "�ų�")
+                else if (pos[i].getName() == "paizhang")
                     sum2 += 100;
                 else sum2 += 0;
             }
@@ -78,26 +78,26 @@ public class ChessBoard {
     }
     public Boolean isEnded()
     {
-        if (!allCanMove(1) || !allCanMove(0)) return true;//��һ��û����
+        if (!allCanMove(1) || !allCanMove(0)) return true;
         Boolean flag = false;
         for (int i = 1; i < 61; i++)
         {
             if (pos[i].getRedOrBlue() == 1)
             {
-                if (pos[i].getName() == "����")
+                if (pos[i].getName() == "junqi")
                 {
                     flag = true;
                     break;
                 }
             }
         }
-        if (!flag) return true;//һ��û�о���
+        if (!flag) return true;
         flag = false;
         for (int i = 1; i < 61; i++)
         {
             if (pos[i].getRedOrBlue() == 0)
             {
-                if (pos[i].getName() == "����")
+                if (pos[i].getName() == "junqi")
                 {
                     flag = true;
                     break;
