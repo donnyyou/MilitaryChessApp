@@ -57,6 +57,19 @@
                 android:layout_height="40dp"
                 android:layout_centerVertical="true" />
 
+            <TextView
+                android:text="15"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/imageViewUser1"
+                android:layout_toEndOf="@+id/imageViewUser1"
+                android:layout_marginLeft="13dp"
+                android:layout_marginStart="13dp"
+                android:id="@+id/textView4"
+                android:textSize="24sp"
+                android:textColor="@android:color/holo_red_dark" />
+
         </RelativeLayout>
 
         <RelativeLayout
@@ -901,19 +914,6 @@
             android:background="#f7f7dd">
 
             <Button
-                android:text="调入布局"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginLeft="68dp"
-                android:layout_marginStart="68dp"
-                android:id="@+id/button3"
-                android:layout_centerVertical="true"
-                android:textStyle="normal|bold" />
-
-            <Button
                 android:text="完成调度"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -925,6 +925,18 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:textStyle="normal|bold" />
+
+            <Button
+                android:text="调入布局"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/button3"
+                android:textStyle="normal|bold"
+                android:layout_alignParentBottom="true"
+                android:layout_toLeftOf="@+id/button4"
+                android:layout_toStartOf="@+id/button4"
+                android:layout_marginRight="48dp"
+                android:layout_marginEnd="48dp" />
         </RelativeLayout>
 
     </RelativeLayout>
