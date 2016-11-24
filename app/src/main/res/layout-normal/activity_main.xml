@@ -24,6 +24,39 @@
             android:layout_height="52dp"
             android:background="#f7f7dd">
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/title"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/imageViewTitle" />
+
+            <ImageView
+                app:srcCompat="@drawable/user2"
+                android:layout_marginLeft="18dp"
+                android:layout_marginStart="18dp"
+                android:id="@+id/imageViewUser1"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="8dp" />
+
+            <ImageView
+                app:srcCompat="@drawable/user1"
+                android:layout_alignParentTop="false"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="8dp"
+                android:id="@+id/imageViewUser2"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true" />
+
         </RelativeLayout>
 
         <RelativeLayout
@@ -867,6 +900,31 @@
             android:layout_height="52dp"
             android:background="#f7f7dd">
 
+            <Button
+                android:text="调入布局"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="68dp"
+                android:layout_marginStart="68dp"
+                android:id="@+id/button3"
+                android:layout_centerVertical="true"
+                android:textStyle="normal|bold" />
+
+            <Button
+                android:text="完成调度"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/button4"
+                android:layout_marginRight="68dp"
+                android:layout_marginEnd="68dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:textStyle="normal|bold" />
         </RelativeLayout>
 
     </RelativeLayout>
