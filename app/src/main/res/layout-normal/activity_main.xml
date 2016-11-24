@@ -21,7 +21,8 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="52dp">
+            android:layout_height="52dp"
+            android:background="#f7f7dd">
 
         </RelativeLayout>
 
@@ -863,7 +864,8 @@
             android:layout_alignParentEnd="false"
             android:layout_alignParentTop="false"
             android:layout_marginBottom="0dp"
-            android:layout_height="52dp">
+            android:layout_height="52dp"
+            android:background="#f7f7dd">
 
         </RelativeLayout>
 
