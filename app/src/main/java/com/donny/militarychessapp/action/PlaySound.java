@@ -28,15 +28,15 @@ public class PlaySound {
 		mapSRC.put("btnfocus", sp.load(ContextUtil.getInstance(), R.raw.btnfocus, 0));
 		mapSRC.put("hurry", sp.load(ContextUtil.getInstance(), R.raw.hurry, 0));
 		mapSRC.put("junqiactive", sp.load(ContextUtil.getInstance(), R.raw.junqiactive, 0));
-        mapSRC.put("junqieat", sp.load(ContextUtil.getInstance(), R.raw.junqieat, 0));
-        mapSRC.put("junqierro", sp.load(ContextUtil.getInstance(), R.raw.junqierro, 0));
-        mapSRC.put("junqigiveup", sp.load(ContextUtil.getInstance(), R.raw.junqigiveup, 0));
-        mapSRC.put("junqipeace", sp.load(ContextUtil.getInstance(), R.raw.junqipeace, 0));
-        mapSRC.put("junqiput", sp.load(ContextUtil.getInstance(), R.raw.junqiput, 0));
-        mapSRC.put("junqisldie", sp.load(ContextUtil.getInstance(), R.raw.junqisldie, 0));
-        mapSRC.put("junqistart", sp.load(ContextUtil.getInstance(), R.raw.junqistart, 0));
-        mapSRC.put("mov", sp.load(ContextUtil.getInstance(), R.raw.mov, 0));
-        mapSRC.put("win", sp.load(ContextUtil.getInstance(), R.raw.win, 0));
+		mapSRC.put("junqieat", sp.load(ContextUtil.getInstance(), R.raw.junqieat, 0));
+		mapSRC.put("junqierro", sp.load(ContextUtil.getInstance(), R.raw.junqierro, 0));
+		mapSRC.put("junqigiveup", sp.load(ContextUtil.getInstance(), R.raw.junqigiveup, 0));
+		mapSRC.put("junqipeace", sp.load(ContextUtil.getInstance(), R.raw.junqipeace, 0));
+		mapSRC.put("junqiput", sp.load(ContextUtil.getInstance(), R.raw.junqiput, 0));
+		mapSRC.put("junqisldie", sp.load(ContextUtil.getInstance(), R.raw.junqisldie, 0));
+		mapSRC.put("junqistart", sp.load(ContextUtil.getInstance(), R.raw.junqistart, 0));
+		mapSRC.put("mov", sp.load(ContextUtil.getInstance(), R.raw.mov, 0));
+		mapSRC.put("win", sp.load(ContextUtil.getInstance(), R.raw.win, 0));
 	}
 
 	/**
