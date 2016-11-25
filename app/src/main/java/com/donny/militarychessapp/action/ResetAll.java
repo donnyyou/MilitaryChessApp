@@ -1,3 +1,4 @@
+/*
 package com.donny.militarychessapp.action;
 
 import java.awt.Image;
@@ -148,3 +149,4 @@ public class ResetAll {
     	
     }
 }
+*/
