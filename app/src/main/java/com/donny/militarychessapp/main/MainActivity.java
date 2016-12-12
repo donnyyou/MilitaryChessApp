@@ -1,15 +1,14 @@
 package com.donny.militarychessapp.main;
 
-import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
+import android.os.Message;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.donny.militarychessapp.R;
 import com.donny.militarychessapp.action.PlaySound;
@@ -21,6 +20,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+
+import static android.os.SystemClock.sleep;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -92,12 +93,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         var.ItemBox[59] = (ImageView)findViewById(R.id.imageViewC59);
         var.ItemBox[60] = (ImageView)findViewById(R.id.imageViewC60);
 
+        initall();
+
         for (int i = 1; i < 61; ++i)
         {
             var.ItemBox[i].setOnClickListener(this);
         }
 
-        initall();
+
 
 
     }
@@ -161,25 +164,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             var.ItemBox[var.clickIndex1].clearAnimation();
             var.isClicked = false;
             var.clickIndex2 = boxId;
-            var.ItemBox[var.clickIndex1].setImageDrawable(var.iconIndex1);
+           // var.ItemBox[var.clickIndex1].setImageDrawable(var.iconIndex1);
 
             if (!ChangePosition(var.isStart, var.clickIndex1, var.clickIndex2)) return;
             else
             {
                 CheckSiLing();
-                new Thread(){
-                    public void run()
-                    {
 
-                        try {
-                            sleep(1000);
-                            if (var.controlBelong == false) ActionMode(var.GameMode);
-                        } catch (InterruptedException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
-                    }
-                }.start();
+                if (var.controlBelong == false) ActionMode(var.GameMode);
 
             }
 
@@ -192,8 +184,241 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     {
         keyToImage();
         initPosLimit();
+        initChess();
     }
 
+    public void initChess()
+    {
+        var.ItemBox[1].setImageResource(var.blueKeyToImage.get("dilei"));
+        var.ItemBox[1].setVisibility(View.VISIBLE);
+        var.ChessPos[1].setName("dilei");
+
+        var.ItemBox[2].setImageResource(var.blueKeyToImage.get("junqi"));
+        var.ItemBox[2].setVisibility(View.VISIBLE);
+        var.ChessPos[2].setName("junqi");
+
+        var.ItemBox[3].setImageResource(var.blueKeyToImage.get("dilei"));
+        var.ItemBox[3].setVisibility(View.VISIBLE);
+        var.ChessPos[3].setName("dilei");
+
+        var.ItemBox[4].setImageResource(var.blueKeyToImage.get("dilei"));
+        var.ItemBox[4].setVisibility(View.VISIBLE);
+        var.ChessPos[4].setName("dilei");
+
+        var.ItemBox[5].setImageResource(var.blueKeyToImage.get("gongbing"));
+        var.ItemBox[5].setVisibility(View.VISIBLE);
+        var.ChessPos[5].setName("gongbing");
+
+        var.ItemBox[6].setImageResource(var.blueKeyToImage.get("gongbing"));
+        var.ItemBox[6].setVisibility(View.VISIBLE);
+        var.ChessPos[6].setName("gongbing");
+
+        var.ItemBox[7].setImageResource(var.blueKeyToImage.get("gongbing"));
+        var.ItemBox[7].setVisibility(View.VISIBLE);
+        var.ChessPos[7].setName("gongbing");
+
+        var.ItemBox[8].setImageResource(var.blueKeyToImage.get("zhadan"));
+        var.ItemBox[8].setVisibility(View.VISIBLE);
+        var.ChessPos[8].setName("zhadan");
+
+        var.ItemBox[9].setImageResource(var.blueKeyToImage.get("zhadan"));
+        var.ItemBox[9].setVisibility(View.VISIBLE);
+        var.ChessPos[9].setName("zhadan");
+
+        var.ItemBox[10].setImageResource(var.blueKeyToImage.get("paizhang"));
+        var.ItemBox[10].setVisibility(View.VISIBLE);
+        var.ChessPos[10].setName("paizhang");
+
+        var.ItemBox[11].setImageResource(var.blueKeyToImage.get("paizhang"));
+        var.ItemBox[11].setVisibility(View.VISIBLE);
+        var.ChessPos[11].setName("paizhang");
+
+        var.ItemBox[12].setImageDrawable(null);
+        var.ItemBox[12].setVisibility(View.VISIBLE);
+
+        var.ItemBox[13].setImageResource(var.blueKeyToImage.get("lianzhang"));
+        var.ItemBox[13].setVisibility(View.VISIBLE);
+        var.ChessPos[13].setName("lianzhang");
+
+        var.ItemBox[14].setImageDrawable(null);
+        var.ItemBox[14].setVisibility(View.VISIBLE);
+
+        var.ItemBox[15].setImageResource(var.blueKeyToImage.get("lianzhang"));
+        var.ItemBox[15].setVisibility(View.VISIBLE);
+        var.ChessPos[15].setName("lianzhang");
+
+        var.ItemBox[16].setImageResource(var.blueKeyToImage.get("yingzhang"));
+        var.ItemBox[16].setVisibility(View.VISIBLE);
+        var.ChessPos[16].setName("yingzhang");
+
+        var.ItemBox[17].setImageResource(var.blueKeyToImage.get("yingzhang"));
+        var.ItemBox[17].setVisibility(View.VISIBLE);
+        var.ChessPos[17].setName("yingzhang");
+
+        var.ItemBox[18].setImageDrawable(null);
+        var.ItemBox[18].setVisibility(View.VISIBLE);
+
+        var.ItemBox[19].setImageResource(var.blueKeyToImage.get("tuanzhang"));
+        var.ItemBox[19].setVisibility(View.VISIBLE);
+        var.ChessPos[19].setName("tuanzhang");
+
+        var.ItemBox[20].setImageResource(var.blueKeyToImage.get("tuanzhang"));
+        var.ItemBox[20].setVisibility(View.VISIBLE);
+        var.ChessPos[20].setName("tuanzhang");
+
+        var.ItemBox[21].setImageResource(var.blueKeyToImage.get("lvzhang"));
+        var.ItemBox[21].setVisibility(View.VISIBLE);
+        var.ChessPos[21].setName("lvzhang");
+
+        var.ItemBox[22].setImageDrawable(null);
+        var.ItemBox[22].setVisibility(View.VISIBLE);
+
+        var.ItemBox[23].setImageResource(var.blueKeyToImage.get("lvzhang"));
+        var.ItemBox[23].setVisibility(View.VISIBLE);
+        var.ChessPos[23].setName("lvzhang");
+
+        var.ItemBox[24].setImageDrawable(null);
+        var.ItemBox[24].setVisibility(View.VISIBLE);
+
+        var.ItemBox[25].setImageResource(var.blueKeyToImage.get("shizhang"));
+        var.ItemBox[25].setVisibility(View.VISIBLE);
+        var.ChessPos[25].setName("shizhang");
+
+        var.ItemBox[26].setImageResource(var.blueKeyToImage.get("shizhang"));
+        var.ItemBox[26].setVisibility(View.VISIBLE);
+        var.ChessPos[26].setName("shizhang");
+
+        var.ItemBox[27].setImageResource(var.blueKeyToImage.get("junzhang"));
+        var.ItemBox[27].setVisibility(View.VISIBLE);
+        var.ChessPos[27].setName("junzhang");
+
+        var.ItemBox[28].setImageResource(var.blueKeyToImage.get("siling"));
+        var.ItemBox[28].setVisibility(View.VISIBLE);
+        var.ChessPos[28].setName("siling");
+
+        var.ItemBox[29].setImageResource(var.blueKeyToImage.get("paizhang"));
+        var.ItemBox[29].setVisibility(View.VISIBLE);
+        var.ChessPos[29].setName("paizhang");
+
+        var.ItemBox[30].setImageResource(var.blueKeyToImage.get("lianzhang"));
+        var.ItemBox[30].setVisibility(View.VISIBLE);
+        var.ChessPos[30].setName("lianzhang");
+
+        var.ItemBox[60].setImageResource(var.redKeyToImage.get("dilei"));
+        var.ItemBox[60].setVisibility(View.VISIBLE);
+        var.ChessPos[60].setName("dilei");
+
+        var.ItemBox[59].setImageResource(var.redKeyToImage.get("junqi"));
+        var.ItemBox[59].setVisibility(View.VISIBLE);
+        var.ChessPos[59].setName("junqi");
+
+        var.ItemBox[58].setImageResource(var.redKeyToImage.get("dilei"));
+        var.ItemBox[58].setVisibility(View.VISIBLE);
+        var.ChessPos[58].setName("dilei");
+
+        var.ItemBox[57].setImageResource(var.redKeyToImage.get("dilei"));
+        var.ItemBox[57].setVisibility(View.VISIBLE);
+        var.ChessPos[57].setName("dilei");
+
+        var.ItemBox[56].setImageResource(var.redKeyToImage.get("gongbing"));
+        var.ItemBox[56].setVisibility(View.VISIBLE);
+        var.ChessPos[56].setName("gongbing");
+
+        var.ItemBox[55].setImageResource(var.redKeyToImage.get("gongbing"));
+        var.ItemBox[55].setVisibility(View.VISIBLE);
+        var.ChessPos[55].setName("gongbing");
+
+        var.ItemBox[54].setImageResource(var.redKeyToImage.get("gongbing"));
+        var.ItemBox[54].setVisibility(View.VISIBLE);
+        var.ChessPos[54].setName("gongbing");
+
+        var.ItemBox[53].setImageResource(var.redKeyToImage.get("zhadan"));
+        var.ItemBox[53].setVisibility(View.VISIBLE);
+        var.ChessPos[53].setName("zhadan");
+
+        var.ItemBox[52].setImageResource(var.redKeyToImage.get("zhadan"));
+        var.ItemBox[52].setVisibility(View.VISIBLE);
+        var.ChessPos[52].setName("zhadan");
+
+        var.ItemBox[51].setImageResource(var.redKeyToImage.get("paizhang"));
+        var.ItemBox[51].setVisibility(View.VISIBLE);
+        var.ChessPos[51].setName("paizhang");
+
+        var.ItemBox[50].setImageResource(var.redKeyToImage.get("paizhang"));
+        var.ItemBox[50].setVisibility(View.VISIBLE);
+        var.ChessPos[50].setName("paizhang");
+
+        var.ItemBox[49].setImageDrawable(null);
+        var.ItemBox[49].setVisibility(View.VISIBLE);
+
+        var.ItemBox[48].setImageResource(var.redKeyToImage.get("lianzhang"));
+        var.ItemBox[48].setVisibility(View.VISIBLE);
+        var.ChessPos[48].setName("lianzhang");
+
+        var.ItemBox[47].setImageDrawable(null);
+        var.ItemBox[47].setVisibility(View.VISIBLE);
+
+        var.ItemBox[46].setImageResource(var.redKeyToImage.get("lianzhang"));
+        var.ItemBox[46].setVisibility(View.VISIBLE);
+        var.ChessPos[46].setName("lianzhang");
+
+        var.ItemBox[45].setImageResource(var.redKeyToImage.get("yingzhang"));
+        var.ItemBox[45].setVisibility(View.VISIBLE);
+        var.ChessPos[45].setName("yingzhang");
+
+        var.ItemBox[44].setImageResource(var.redKeyToImage.get("yingzhang"));
+        var.ItemBox[44].setVisibility(View.VISIBLE);
+        var.ChessPos[44].setName("yingzhang");
+
+        var.ItemBox[43].setImageDrawable(null);
+        var.ItemBox[43].setVisibility(View.VISIBLE);
+
+        var.ItemBox[42].setImageResource(var.redKeyToImage.get("tuanzhang"));
+        var.ItemBox[42].setVisibility(View.VISIBLE);
+        var.ChessPos[42].setName("tuanzhang");
+
+        var.ItemBox[41].setImageResource(var.redKeyToImage.get("tuanzhang"));
+        var.ItemBox[41].setVisibility(View.VISIBLE);
+        var.ChessPos[41].setName("tuanzhang");
+
+        var.ItemBox[40].setImageResource(var.redKeyToImage.get("lvzhang"));
+        var.ItemBox[40].setVisibility(View.VISIBLE);
+        var.ChessPos[40].setName("lvzhang");
+
+        var.ItemBox[39].setImageDrawable(null);
+        var.ItemBox[39].setVisibility(View.VISIBLE);
+
+        var.ItemBox[38].setImageResource(var.redKeyToImage.get("lvzhang"));
+        var.ItemBox[38].setVisibility(View.VISIBLE);
+        var.ChessPos[38].setName("lvzhang");
+
+        var.ItemBox[37].setImageDrawable(null);
+        var.ItemBox[37].setVisibility(View.VISIBLE);
+
+        var.ItemBox[36].setImageResource(var.redKeyToImage.get("shizhang"));
+        var.ItemBox[36].setVisibility(View.VISIBLE);
+        var.ChessPos[36].setName("shizhang");
+
+        var.ItemBox[35].setImageResource(var.redKeyToImage.get("shizhang"));
+        var.ItemBox[35].setVisibility(View.VISIBLE);
+        var.ChessPos[35].setName("shizhang");
+
+        var.ItemBox[34].setImageResource(var.redKeyToImage.get("junzhang"));
+        var.ItemBox[34].setVisibility(View.VISIBLE);
+        var.ChessPos[34].setName("junzhang");
+
+        var.ItemBox[33].setImageResource(var.redKeyToImage.get("siling"));
+        var.ItemBox[33].setVisibility(View.VISIBLE);
+        var.ChessPos[33].setName("siling");
+
+        var.ItemBox[32].setImageResource(var.redKeyToImage.get("paizhang"));
+        var.ItemBox[32].setVisibility(View.VISIBLE);
+        var.ChessPos[32].setName("paizhang");
+
+        var.ItemBox[31].setImageResource(var.redKeyToImage.get("lianzhang"));
+        var.ItemBox[31].setVisibility(View.VISIBLE);
+        var.ChessPos[31].setName("lianzhang");
+    }
 
     public void keyToImage()
     {
@@ -392,28 +617,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         {
             List<Position> PList = GetPathList(index1, index2);
             var.posList = (ArrayList<Position>) PList;
-            new Thread()
-            {
-                public void run()
-                {
-                    for (int i = 0; i < var.posList.size() - 2; i++)
-                    {
-                        try {
-                            sleep(20);
-                            PlaySound.play("mov");
-                        } catch (InterruptedException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
-                        changeStatus(Coordinary_To_Index(var.posList.get(i).getX(), var.posList.get(i).getY()), Coordinary_To_Index(var.posList.get(i+1).getX(), var.posList.get(i+1).getY()));
-                        //PlaySound.Play(@"wav\\MOVE.WAV");
-
-                    }
-                    var.ChessPos[Coordinary_To_Index(var.posList.get(var.posList.size() - 2).getX(), var.posList.get(var.posList.size() - 2).getY())].setRedOrBlue(2);
-                    var.ChessPos[Coordinary_To_Index(var.posList.get(var.posList.size() - 2).getX(), var.posList.get(var.posList.size() - 2).getY())].setName(null);
-                    var.ItemBox[Coordinary_To_Index(var.posList.get(var.posList.size() - 2).getX(), var.posList.get(var.posList.size() - 2).getY())].setImageDrawable(null);
+            Handler handler = new Handler() {
+                @Override
+                public void handleMessage(Message msg) {
+                    int i = Integer.parseInt(msg.toString());
+                    changeStatus(Coordinary_To_Index(var.posList.get(i).getX(), var.posList.get(i).getY()), Coordinary_To_Index(var.posList.get(i+1).getX(), var.posList.get(i+1).getY()));
                 }
-            }.start();
+            };
+            for (int i = 0; i < var.posList.size() - 2; i++)
+            {
+                //PlaySound.play("mov");
+
+                changeStatus(Coordinary_To_Index(var.posList.get(i).getX(), var.posList.get(i).getY()), Coordinary_To_Index(var.posList.get(i+1).getX(), var.posList.get(i+1).getY()));
+                //PlaySound.Play(@"wav\\MOVE.WAV");
+            }
+            var.ChessPos[Coordinary_To_Index(var.posList.get(var.posList.size() - 2).getX(), var.posList.get(var.posList.size() - 2).getY())].setRedOrBlue(2);
+            var.ChessPos[Coordinary_To_Index(var.posList.get(var.posList.size() - 2).getX(), var.posList.get(var.posList.size() - 2).getY())].setName(null);
+            var.ItemBox[Coordinary_To_Index(var.posList.get(var.posList.size() - 2).getX(), var.posList.get(var.posList.size() - 2).getY())].setImageDrawable(null);
         }
         else
         {
@@ -428,28 +648,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 var.ItemBox[index2].setImageDrawable(imageIndex1);
                 var.ChessPos[index2].setName(name1);
                 var.ChessPos[index2].setRedOrBlue(redorblue1);
-                PlaySound.play("mov");
+//                PlaySound.play("mov");
                 break;
             case 1:
-                PlaySound.play("junqisldie");
+                //PlaySound.play("junqisldie");
                 break;
             case 2:
                 var.ItemBox[index2].setImageDrawable(imageIndex1);
                 var.ChessPos[index2].setName(name1);
                 var.ChessPos[index2].setRedOrBlue(redorblue1);
-                PlaySound.play("junqieat");
+  //              PlaySound.play("junqieat");
                 break;
             case 3:
                 var.ItemBox[index2].setImageDrawable(null);
                 var.ChessPos[index2].setName(null);;
                 var.ChessPos[index2].setRedOrBlue(2);
-                PlaySound.play("junqitongqu");
+  //              PlaySound.play("junqitongqu");
                 break;
             case 4:
                 var.ItemBox[index2].setImageDrawable(imageIndex1);
                 var.ChessPos[index2].setName(name1);
                 var.ChessPos[index2].setRedOrBlue(redorblue1);
-                PlaySound.play("win");
+ //               PlaySound.play("win");
 
                 var.isEnd = true;
                 // initChess();,
@@ -604,12 +824,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                  }*/
                 if (var.ChessPos[2].getRedOrBlue() == 0&&var.ChessPos[2].getName()=="junqi")
                 {
-                    var.ItemBox[2].setImageResource(var.redKeyToImage.get("junqi"));
+                    var.ItemBox[2].setImageResource(var.blueKeyToImage.get("junqi"));
                 }
 
                 else if(var.ChessPos[59].getName()=="junqi")
                 {
-                    var.ItemBox[59].setImageResource(var.redKeyToImage.get("junqi"));
+                    var.ItemBox[59].setImageResource(var.blueKeyToImage.get("junqi"));
                 }
 
             }
@@ -627,11 +847,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             {
                 if (var.ChessPos[59].getRedOrBlue() == 1 && var.ChessPos[59].getName() == "junqi")
                 {
-                    var.ItemBox[59].setImageResource(var.blueKeyToImage.get("junqi"));
+                    var.ItemBox[59].setImageResource(var.redKeyToImage.get("junqi"));
                 }
                 else if(var.ChessPos[2].getName()=="junqi")
                 {
-                    var.ItemBox[2].setImageResource(var.blueKeyToImage.get("junqi"));
+                    var.ItemBox[2].setImageResource(var.redKeyToImage.get("junqi"));
                 }
 
             }

@@ -17,7 +17,7 @@ public class Variable {
     public HashMap<String, Integer> blueKeyToImage = new HashMap<String, Integer>();
     public ImageView[] ItemBox = new ImageView[61];
     public Position[] ChessPos = new Position[61];
-    public boolean isStart = false;
+    public boolean isStart = true;
     public boolean isClicked = false;
     public boolean isLocked = false;
     public int clickIndex1 = 0;
