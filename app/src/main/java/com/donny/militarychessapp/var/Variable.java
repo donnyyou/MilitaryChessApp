@@ -13,26 +13,26 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Variable {
-    public static HashMap<String, Integer> redKeyToImage = new HashMap<String, Integer>();
-    public static HashMap<String, Integer> blueKeyToImage = new HashMap<String, Integer>();
-    public static ImageView[] ItemBox = new ImageView[61];
-    public static Position[] ChessPos = new Position[61];
-    public static boolean isStart = false;
-    public static boolean isClicked = false;
-    public static boolean isLocked = false;
-    public static int clickIndex1 = 0;
-    public static int clickIndex2 = 0;
-    public static int GameMode = 1;
-    public static boolean controlBelong = true; //if red, true, else blue
-    public static boolean isEnd = false;
-    public static int searchDeepth = 1;
-    public static boolean forDFS = false;
-    public static Drawable iconIndex1;
-    public static Drawable iconIndex2;
-    public static int threadNum = 0;
-    public static boolean flag = false;
-    public static int threadAnimate = 0;
-    public static int temp = 0;
-    public static ArrayList<Position> posList = new ArrayList<Position>();
-    public static ImageView picbox = new ImageView(ContextUtil.getInstance());
+    public HashMap<String, Integer> redKeyToImage = new HashMap<String, Integer>();
+    public HashMap<String, Integer> blueKeyToImage = new HashMap<String, Integer>();
+    public ImageView[] ItemBox = new ImageView[61];
+    public Position[] ChessPos = new Position[61];
+    public boolean isStart = false;
+    public boolean isClicked = false;
+    public boolean isLocked = false;
+    public int clickIndex1 = 0;
+    public int clickIndex2 = 0;
+    public int GameMode = 1;
+    public boolean controlBelong = true; //if red, true, else blue
+    public boolean isEnd = false;
+    public int searchDeepth = 1;
+    public boolean forDFS = false;
+    public Drawable iconIndex1;
+    public Drawable iconIndex2;
+    public int threadNum = 0;
+    public boolean flag = false;
+    public int threadAnimate = 0;
+    public int temp = 0;
+    public ArrayList<Position> posList = new ArrayList<Position>();
+    public ImageView picbox; //= new ImageView(ContextUtil.getInstance());
 }
