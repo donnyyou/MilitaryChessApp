@@ -490,7 +490,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_marginTop="190dp"
-                android:tag="10"
+                android:tag="30"
                 android:layout_height="28dp"
                 android:layout_width="52dp" />
 
