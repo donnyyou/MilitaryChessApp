@@ -610,20 +610,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String name1 = var.ChessPos[index1].getName();
         String name2 = var.ChessPos[index2].getName();
         int redorblue1 = var.ChessPos[index1].getRedOrBlue();
-        //int redorblue2 = Variable.ChessPos[index2].getRedOrBlue();
+        //int redorblue2 = var.ChessPos[index2].getRedOrBlue();
         //if (name2 == null) MessageBox.Show("nihao");
         int casenum = fightResult(name1, name2);
         if (var.ChessPos[index1].getIsOnTheRoad() && var.ChessPos[index2].getIsOnTheRoad())
         {
             List<Position> PList = GetPathList(index1, index2);
             var.posList = (ArrayList<Position>) PList;
-            Handler handler = new Handler() {
-                @Override
-                public void handleMessage(Message msg) {
-                    int i = Integer.parseInt(msg.toString());
-                    changeStatus(Coordinary_To_Index(var.posList.get(i).getX(), var.posList.get(i).getY()), Coordinary_To_Index(var.posList.get(i+1).getX(), var.posList.get(i+1).getY()));
-                }
-            };
+
             for (int i = 0; i < var.posList.size() - 2; i++)
             {
                 //PlaySound.play("mov");
@@ -723,10 +717,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 return false;
         }
     }
-
-
-
-
 
     public void ActionMode(int mode)
     {
