@@ -2,6 +2,7 @@ package com.donny.militarychessapp.main;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -61,7 +62,11 @@ public class GameModeActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int positon, long id) {
                 //在这里面就是执行点击后要进行的操作,这里只是做一个显示
-                Toast.makeText(GameModeActivity.this, "您点击的是"+list.get(positon).toString(), Toast.LENGTH_LONG).show();
+                Intent intent = new Intent();
+                intent.putExtra("level", positon);
+                intent.putExtra("mode", 1);
+                intent.setClass(GameModeActivity.this, MainActivity.class);
+                GameModeActivity.this.startActivity(intent);
                 if (alertDialog != null) {
                     alertDialog.dismiss();
                 }

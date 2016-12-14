@@ -1,11 +1,13 @@
 package com.donny.militarychessapp.main;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
@@ -31,6 +33,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Intent intent=getIntent();
+        var.searchDeepth = intent.getIntExtra("level", 1) + 1;
+        var.GameMode = intent.getIntExtra("mode", 1);
 
         var.ItemBox[1] = (ImageView)findViewById(R.id.imageViewC1);
         var.ItemBox[2] = (ImageView)findViewById(R.id.imageViewC2);
@@ -100,7 +105,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             var.ItemBox[i].setOnClickListener(this);
         }
 
+        findViewById(R.id.button4).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                var.isStart = true;
+            }
+        });
 
+        findViewById(R.id.button3).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // load the layout.
+            }
+        });
 
 
     }

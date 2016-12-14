@@ -17,9 +17,8 @@ public class Variable {
     public HashMap<String, Integer> blueKeyToImage = new HashMap<String, Integer>();
     public ImageView[] ItemBox = new ImageView[61];
     public Position[] ChessPos = new Position[61];
-    public boolean isStart = true;
+    public boolean isStart = false;
     public boolean isClicked = false;
-    public boolean isLocked = false;
     public int clickIndex1 = 0;
     public int clickIndex2 = 0;
     public int GameMode = 1;
@@ -30,9 +29,6 @@ public class Variable {
     public Drawable iconIndex1;
     public Drawable iconIndex2;
     public int threadNum = 0;
-    public boolean flag = false;
-    public int threadAnimate = 0;
-    public int temp = 0;
     public ArrayList<Position> posList = new ArrayList<Position>();
     public ImageView picbox; //= new ImageView(ContextUtil.getInstance());
 }
