@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_gravity="center"
+    android:id="@+id/layout_myview"
+    android:layout_height="fill_parent"
+    android:background="@android:color/background_light"
+    android:orientation="vertical"
+    android:padding="0.0dip" >
+
+    <LinearLayout
+        android:id="@+id/title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#defafd"
+        android:padding="10.0dip" >
+
+        <TextView
+            android:id="@+id/label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/title"
+            android:text="请选择难度等级"
+            android:textColor="#0182af"
+            android:textSize="20.0dip" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/formcustomspinner_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:cacheColorHint="@null"
+        android:divider="@android:drawable/divider_horizontal_bright"
+        android:scrollbars="none" /> <!-- listview 的线为灰色 -->
+
+</LinearLayout>
