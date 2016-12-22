@@ -16,12 +16,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.donny.militarychessapp.R;
+import com.donny.militarychessapp.bluetooth.BlueToothMatchActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class GameModeActivity extends AppCompatActivity {
-    private Button btn;
+    private Button onebtn;
+    private Button twobtn;
     private List<String> list = new ArrayList<String>();
     private AlertDialog.Builder builder;
     private AlertDialog alertDialog;
@@ -32,13 +34,25 @@ public class GameModeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game_mode);
         list = initData();
 
-        btn = (Button) findViewById(R.id.button);
+        onebtn = (Button) findViewById(R.id.button);
+        twobtn = (Button) findViewById(R.id.button2);
 
-        btn.setOnClickListener(new View.OnClickListener() {
+        onebtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 ShowDialog();
+            }
+        });
+
+        twobtn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GameModeActivity.this,BlueToothMatchActivity.class);
+                //设置从右边出现
+                GameModeActivity.this.overridePendingTransition(R.anim.initactivity_open, 0);
+                startActivity(intent);
             }
         });
     }
