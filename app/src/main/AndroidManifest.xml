@@ -4,6 +4,10 @@
 
     <uses-permission android:name="android.permission.BLUETOOTH"/>
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -22,13 +26,9 @@
         </activity>>
         <activity android:name=".bluetooth.BlueToothMatchActivity">
         </activity>
+        <activity android:name=".main.BlueToothGameAty"   android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
+        </activity>
 
-        <receiver android:name=".bluetooth.BlueToothReceiver" >
-            <intent-filter android:priority="1000">
-                <action android:name="android.bluetooth.device.action.PAIRING_REQUEST"/>
-                <action android:name="android.bluetooth.device.action.FOUND" />
-            </intent-filter>
-        </receiver>
     </application>
 
 </manifest>
