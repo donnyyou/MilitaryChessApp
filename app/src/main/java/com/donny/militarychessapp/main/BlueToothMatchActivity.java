@@ -1,4 +1,4 @@
-package com.donny.militarychessapp.bluetooth;
+package com.donny.militarychessapp.main;
 
 import android.animation.ObjectAnimator;
 import android.app.Activity;
@@ -21,8 +21,9 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.donny.militarychessapp.R;
+import com.donny.militarychessapp.bluetooth.Device;
+import com.donny.militarychessapp.bluetooth.DeviceshowAdapter;
 import com.donny.militarychessapp.context.Config;
-import com.donny.militarychessapp.main.BlueToothGameAty;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -63,7 +64,7 @@ public class BlueToothMatchActivity extends Activity {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.bluetooth_layout);
+        setContentView(R.layout.bluetooth_match_layout);
 
         //初始化视图
         initView();

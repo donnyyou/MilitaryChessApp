@@ -13,10 +13,8 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.donny.militarychessapp.R;
-import com.donny.militarychessapp.bluetooth.BlueToothMatchActivity;
 
 import java.util.ArrayList;
 import java.util.List;

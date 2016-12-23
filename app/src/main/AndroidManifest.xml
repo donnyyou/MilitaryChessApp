@@ -24,7 +24,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>>
-        <activity android:name=".bluetooth.BlueToothMatchActivity">
+        <activity android:name=".main.BlueToothMatchActivity">
         </activity>
         <activity android:name=".main.BlueToothGameAty"   android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
         </activity>

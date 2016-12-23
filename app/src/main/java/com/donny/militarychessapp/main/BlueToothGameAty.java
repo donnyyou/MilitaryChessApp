@@ -10,9 +10,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
-import android.widget.Button;
-import android.widget.TextView;
-
 
 import com.donny.militarychessapp.R;
 
@@ -21,89 +18,42 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Timer;
-import java.util.TimerTask;
 
 
 /**
  * 蓝牙对战Activity
  */
-public class BlueToothGameAty extends Activity implements BlueToothGoBangView.BlueToothActionListner {
+public class BlueToothGameAty extends Activity implements BlueToothMainView.BlueToothActionListner {
+
     public BlueToothGameAty blueToothGameAty =  this;
-    private static BlueToothGoBangView gbv;
-    private TextView textView;
-    private Button huiqi;
-    private Button shuaxin;
-    private TextView showtime;
+    private static BlueToothMainView gbv;
+    Context context = BlueToothGameAty.this;
+    //数据传输线程
+    static ConnectedThread connectedThread;
+    //初始化线程来传输或接收数据
+    public static boolean faqi = false;
+
+
+    public Handler mhandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            //Toast.makeText(BlueToothGameAty.this, "收到挑战！", Toast.LENGTH_LONG).show();
+        }
+    };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.bluetoothgame_layout);
         blueToothGameAty = this;
-        initView();
-    }
-
-    private void initView() {
-        showtime = (TextView) findViewById(R.id.bluetooth_showtime);
-        gbv = (BlueToothGoBangView) this.findViewById(R.id.bluetooth_gobangview);
-        textView = (TextView) findViewById(R.id.bluetooth_text);
-        huiqi = (Button) findViewById(R.id.bluetooth_btn1);
-        shuaxin = (Button) findViewById(R.id.bluetooth_btn2);
-        SimpleDateFormat simpleDateFormat = null;
-        simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");
-        textView.setText("当前时间：" + simpleDateFormat.format(new Date()));
-        gbv.setTextView(textView);
-        gbv.setButtons(huiqi, shuaxin);
-        gbv.setShowTimeTextViewTime(jishitime);
+        gbv = (BlueToothMainView) this.findViewById(R.id.bluetooth_gobangview);
         gbv.setActionCallbak(this);
-        Timer timer = new Timer();
-        JishiTask myTask = new JishiTask();
-        timer.schedule(myTask, 1000, 1000);
 
         if (faqi == false) {
             showdialog();
         }
     }
-
-    int[] jishitime = {0, 0, 0, 0};//秒，分，时，总
-
-
-    private class JishiTask extends TimerTask {
-        @Override
-        public void run() {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    jishitime[0]++;
-                    jishitime[3]++;
-                    if (jishitime[0] == 60) {
-                        jishitime[1]++;
-                        jishitime[0] = 0;
-                    }
-                    if (jishitime[1] == 60) {
-                        jishitime[2]++;
-                        jishitime[1] = 0;
-                    }
-                    if (jishitime[2] == 24) {
-                        jishitime[2] = 0;
-                    }
-                    showtime.setText(String.format("%02d:%02d:%02d", jishitime[2], jishitime[1], jishitime[0]));
-                }
-            });
-        }
-    }
-
-    Context context = BlueToothGameAty.this;
-
-    //数据传输线程
-    static ConnectedThread connectedThread;
-
-    //初始化线程来传输或接收数据
-
-    public static boolean faqi = false;
 
     /**
      * 连接蓝牙socket方法
@@ -143,9 +93,6 @@ public class BlueToothGameAty extends Activity implements BlueToothGoBangView.Bl
         }
     }
 
-    public void chushihua(BlueToothGameAty blueToothGameAty) {
-    }
-
     private AlertDialog.Builder mydialog;
 
     public void showdialog() {
@@ -172,7 +119,6 @@ public class BlueToothGameAty extends Activity implements BlueToothGoBangView.Bl
                 });
         AlertDialog alert = mydialog.create();
         alert.show();
-
 
     }
 
@@ -267,21 +213,7 @@ public class BlueToothGameAty extends Activity implements BlueToothGoBangView.Bl
                 Log.d("whalea", "写不出的原因:" + e.getMessage());
             }
         }
-
-     /*    public void cancel() {
-            try {
-                mmSocket.close();
-            } catch (IOException e) { }
-        }*/
     }
 
-
-    public Handler mhandler = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            //Toast.makeText(BlueToothGameAty.this, "收到挑战！", Toast.LENGTH_LONG).show();
-        }
-    };
 }
 
