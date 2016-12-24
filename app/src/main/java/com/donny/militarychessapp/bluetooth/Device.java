@@ -1,7 +1,7 @@
 package com.donny.militarychessapp.bluetooth;
 
 /**
- * Created by nangua on 2016/5/31.
+ * Created by youansheng on 2016/12/24.
  */
 public class Device {
     private String deviceName;

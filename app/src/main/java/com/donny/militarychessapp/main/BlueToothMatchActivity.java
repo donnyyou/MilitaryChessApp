@@ -361,6 +361,4 @@ public class BlueToothMatchActivity extends Activity {
         BlueToothMatchActivity.this.unregisterReceiver(bluetoothReceiver);
     }
 
-
-
 }

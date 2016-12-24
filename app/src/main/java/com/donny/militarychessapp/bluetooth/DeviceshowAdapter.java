@@ -15,7 +15,7 @@ import com.donny.militarychessapp.R;
 import java.util.ArrayList;
 
 /**
- * Created by nangua on 2016/5/31.
+ * Created by youansheng on 2016/12/24.
  */
 public class DeviceshowAdapter extends BaseAdapter {
     public ArrayList<Device> getDevices() {

@@ -4,7 +4,7 @@ import java.net.InetAddress;
 import java.util.UUID;
 
 /**
- * Created by nangua on 2016/5/31.
+ * Created by youansheng on 2016/12/24.
  */
 public class Config {
     //本机唯一UUID
