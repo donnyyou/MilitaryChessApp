@@ -25,35 +25,16 @@ import com.donny.militarychessapp.chess.Position;
 import com.donny.militarychessapp.var.Variable;
 
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
 import java.util.Stack;
 
 public class BlueToothMainView extends RelativeLayout implements View.OnClickListener {
-    protected static int GRID_SIZE = 14;    //设置为国际标准
-    protected static int GRID_WIDTH = 42; // 棋盘格的宽度
-    protected static int CHESS_DIAMETER = 37; // 棋的直径
+
     private Variable var = new Variable();
-
-    private static int[][] mGridArray; // 网格
-    private Stack<String> storageArray;
-
-
-    int wbflag = 1; //该下白棋了=2，该下黑棋了=1. 这里先下黑棋（黑棋以后设置为机器自动下的棋子）
-    int mLevel = 1; //游戏难度
-    int mWinFlag = 0;
-    private final int BLACK = 1;
-    private final int WHITE = 2;
-
-
-    //private TextView mStatusTextView; //  根据游戏状态设置显示的文字
-    private TextView mStatusTextView; //  根据游戏状态设置显示的文字
-
-    private Bitmap btm1;
-    private final Paint mPaint = new Paint();
-
-    CharSequence mText;
-    CharSequence STRING_WIN = "白棋赢啦!  ";
-    CharSequence STRING_LOSE = "黑棋赢啦!  ";
-    CharSequence STRING_EQUAL = "和棋！  ";
+    private  BlueToothGameAty blueToothGameAty;
 
     public BlueToothMainView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -157,23 +138,14 @@ public class BlueToothMainView extends RelativeLayout implements View.OnClickLis
     public void onClick(View v) {
         if(!var.isClicked)
         {
-            if(var.threadNum == 1)
-            {
-                return;
-            }
             int boxId = Integer.parseInt(v.getTag().toString());
 
             Drawable icon = var.ItemBox[boxId].getDrawable();
 
             if (var.isStart)
             {
-                if (var.GameMode == 2)
-                {
-                    //if (netsystem.redOrblue != var.ChessPos[BoxId].RedOrBlue)
-                    return;
-                }
                 if (icon == null) return;
-                if (!((var.ChessPos[boxId].getRedOrBlue() == 1) ^ var.controlBelong))
+                if (var.controlBelong)
                 {
                     var.isClicked = true;
                     var.clickIndex1 = boxId;
@@ -182,6 +154,7 @@ public class BlueToothMainView extends RelativeLayout implements View.OnClickLis
                 else
                 {
                     var.isClicked = false;
+                    return;
                 }
             }
             else
@@ -215,14 +188,15 @@ public class BlueToothMainView extends RelativeLayout implements View.OnClickLis
             // var.ItemBox[var.clickIndex1].setImageDrawable(var.iconIndex1);
 
             if (!ChangePosition(var.isStart, var.clickIndex1, var.clickIndex2)) return;
+
+            if (var.isStart)
+            {
+                putChess(var.clickIndex1, var.clickIndex2, 1);
+            }
             else
             {
-
-
-                //if (var.controlBelong == false) ActionMode(var.GameMode);
-
+                putChess(var.clickIndex1, var.clickIndex2, 0);
             }
-            putChess(var.clickIndex1, var.clickIndex2, 0);
             System.out.println(var.clickIndex1);
             System.out.println(var.clickIndex2);
         }
@@ -575,12 +549,8 @@ public class BlueToothMainView extends RelativeLayout implements View.OnClickLis
         {
             if (CanMove(isstart, index1, index2))
             {
-                if (var.GameMode == 2)
-                {
-                    //netsystem.MoveDone(index1, index2);
-                }
-                var.controlBelong = !var.controlBelong;
-                //fightStatus(index1, index2);
+                //var.controlBelong = !var.controlBelong;
+                fightStatus(index1, index2);
                 return true;
             }
             else
@@ -592,11 +562,153 @@ public class BlueToothMainView extends RelativeLayout implements View.OnClickLis
     {
         if (!isstart)
             return canMoveBeforeStart(index1, index2);
-        //else
-            //return canMoveAfterStart(var.ChessPos,index1, index2);
-        return false;
+        else
+            return canMoveAfterStart(var.ChessPos,index1, index2);
+    }
+    public boolean canMoveAfterStart(Position[] pos, int index1, int index2)
+    {
+        if (index1 == index2) return false;
+        if (pos[index1].getName() == "junqi" || pos[index1].getName() == "dilei") return false;
+        if (!pos[index1].getIsActive()) return false;
+        if (pos[index2].getIsXingying() && var.ItemBox[index2].getDrawable() != null) return false;//Ŀ���Ƿ�����Ӫ��
+        if (pos[index1].getRedOrBlue() == pos[index2].getRedOrBlue() && pos[index2].getName() != null) return false;//�Ƿ��Ƕ���?
+        if (!(pos[index1].getIsOnTheRoad() && pos[index2].getIsOnTheRoad()))
+        {
+            return isNeighbor(pos, index1, index2);
+        }
+        if (pos[index1].getIsOnTheRoad() && pos[index2].getIsOnTheRoad() &&
+                pos[index1].getName() != null && pos[index1].getName() != "gongbing")
+        {
+            return BFS1(pos, index1, index2);
+        }
+        if (pos[index1].getIsOnTheRoad() && pos[index2].getIsOnTheRoad() &&
+                pos[index1].getName() != null && pos[index1].getName() == "gongbing")
+        {
+            return BFS2(pos, index1, index2);
+        }
+        return true;
     }
 
+    public boolean isNeighbor(Position[] pos, int fromI, int toI)
+    {
+        if (pos[fromI].getIsXingying() == true || pos[toI].getIsXingying() == true)
+        {
+            if (Math.abs(pos[fromI].getX() - pos[toI].getX()) <= 1 && Math.abs(pos[fromI].getY() - pos[toI].getY()) <= 1) return true;
+            else return false;
+        }
+        else if (Math.abs(pos[fromI].getX() - pos[toI].getX()) == 1 && Math.abs(pos[fromI].getY() - pos[toI].getY()) == 0) return true;
+        else if (Math.abs(pos[fromI].getY() - pos[toI].getY()) == 1 && Math.abs(pos[fromI].getX() - pos[toI].getX()) == 0) return true;
+        else return false;
+    }
+    public boolean BFS1(Position[] pos, int fromI, int ToI)
+    {
+        if (pos[fromI].getIsOnTheRoad() && pos[ToI].getIsOnTheRoad())
+        {
+            int fX, tX, fY, tY;
+            fX = pos[fromI].getX();
+            fY = pos[fromI].getY();
+            tX = pos[ToI].getX();
+            tY = pos[ToI].getY();
+            if (pos[Coordinary_To_Index(fX, fY)].getRedOrBlue() == pos[Coordinary_To_Index(tX, tY)].getRedOrBlue()) return false;
+            if (fX == tX)
+            {
+                int step = fY > tY ? -1 : 1;
+                for (int i = fY + step; i != tY; i += step)
+                {
+                    if (pos[Coordinary_To_Index(fX, i)].getName() != null) return false;
+                    else if (pos[Coordinary_To_Index(fX, i)].getRedOrBlue() == pos[Coordinary_To_Index(fX, fY)].getRedOrBlue()) return false;
+                }
+                return true;
+            }
+            else if (fY == tY)
+            {
+                if ((fY == 1 || fY == 3) && (fX <= 5 || fX >= 6)) return false;
+                int step = fX > tX ? -1 : 1;
+                for (int i = fX + step; i != tX; i += step)
+                {
+                    if (pos[Coordinary_To_Index(i, fY)].getName() != null) return false;
+                    else if (pos[Coordinary_To_Index(i, fY)].getRedOrBlue() == pos[Coordinary_To_Index(fX, fY)].getRedOrBlue()) return false;
+                }
+                return true;
+            }
+            else return false;
+        }
+        return false;
+    }
+    public boolean BFS2(Position[] pos, int fromI, int toI)
+    {
+        if (pos[fromI].getIsOnTheRoad() && pos[toI].getIsOnTheRoad())
+        {
+            boolean[][] isVisited = new boolean[12][5];
+            for (int i = 0; i < 12; i++)
+                for (int j = 0; j < 5; j++) isVisited[i][j] = false;
+            Queue<Position> que = new LinkedList<Position>();
+            que.offer(pos[fromI]);
+            isVisited[pos[fromI].getX()][pos[fromI].getY()] = true;
+            while (que.size() != 0)
+            {
+                Position P = que.poll();
+                if (Coordinary_To_Index(P.getX(), P.getY()) == toI) return true;
+                if (P.getX() - 1 >= 0 &&
+                        (
+                                (pos[Coordinary_To_Index(P.getX() - 1, P.getY())].getName() == null &&
+                                        pos[Coordinary_To_Index(P.getX() - 1, P.getY())].getIsOnTheRoad() == true &&
+                                        isVisited[P.getX() - 1][P.getY()] == false) ||
+                                        Coordinary_To_Index(P.getX() - 1, P.getY()) == toI
+                        )
+                        )
+                {
+                    if (!(P.getX() == 6 && (P.getY() == 1 || P.getY() == 3)))
+                    {
+                        isVisited[P.getX() - 1][P.getY()] = true;
+                        que.offer(pos[Coordinary_To_Index(P.getX() - 1, P.getY())]);
+                    }
+                }
+                if (P.getX() + 1 <= 11 &&
+                        (
+                                (pos[Coordinary_To_Index(P.getX() + 1, P.getY())].getName() == null &&
+                                        pos[Coordinary_To_Index(P.getX() + 1, P.getY())].getIsOnTheRoad() == true &&
+                                        isVisited[P.getX() + 1][P.getY()] == false) ||
+                                        Coordinary_To_Index(P.getX() + 1, P.getY()) == toI
+                        )
+                        )
+                {
+                    if (!(P.getX() == 5 && (P.getY() == 1 || P.getY() == 3)))
+                    {
+                        isVisited[P.getX() + 1][P.getY()] = true;
+                        que.offer(pos[Coordinary_To_Index(P.getX() + 1, P.getY())]);
+                    }
+                }
+                if (P.getY() - 1 >= 0 &&
+                        (
+                                (
+                                        pos[Coordinary_To_Index(P.getX(), P.getY() - 1)].getName() == null &&
+                                                pos[Coordinary_To_Index(P.getX(), P.getY() - 1)].getIsOnTheRoad() == true &&
+                                                isVisited[P.getX()][P.getY() - 1] == false) ||
+                                        Coordinary_To_Index(P.getX(), P.getY() - 1) == toI
+                        )
+                        )
+                {
+                    isVisited[P.getX()][P.getY() - 1] = true;
+                    que.offer(pos[Coordinary_To_Index(P.getX(), P.getY() - 1)]);
+                }
+                if (P.getY() + 1 <= 4 &&
+                        (
+                                (pos[Coordinary_To_Index(P.getX(), P.getY() + 1)].getName() == null &&
+                                        pos[Coordinary_To_Index(P.getX(), P.getY() + 1)].getIsOnTheRoad() == true &&
+                                        isVisited[P.getX()][P.getY() + 1] == false) ||
+                                        Coordinary_To_Index(P.getX(), P.getY() + 1) == toI
+                        )
+                        )
+                {
+                    isVisited[P.getX()][P.getY() + 1] = true;
+                    que.offer(pos[Coordinary_To_Index(P.getX(), P.getY() + 1)]);
+                }
+            }
+            return false;
+        }
+        else return false;
+    }
     public boolean canMoveBeforeStart(int index1, int index2)
     {
         if ((index1 > 30 && index2 < 31) || (index1 < 31 && index2 > 30)) return false;
@@ -630,24 +742,13 @@ public class BlueToothMainView extends RelativeLayout implements View.OnClickLis
         var.ChessPos[index2].setRedOrBlue(redOrBlue1);
     }
 
-    //按钮监听器
-    MyButtonListener myButtonListener;
-
     public void setActionCallbak(BlueToothGameAty blueToothGameAty) {
         this.blueToothGameAty = blueToothGameAty;
     }
 
-    private  BlueToothGameAty blueToothGameAty;
-
-
-    //悔棋按钮
-    Button huiqi;
-    //刷新那妞
-    Button refresh;
-
-
     public void adjust(){
         PleaseAdjust();
+        var.controlBelong = false;
     }
     public void PleaseAdjust()
     {
@@ -679,7 +780,6 @@ public class BlueToothMainView extends RelativeLayout implements View.OnClickLis
 
 
     /**
-     * 下棋，黑1 白2
      * @param x
      * @param y
      * @param order
@@ -687,6 +787,9 @@ public class BlueToothMainView extends RelativeLayout implements View.OnClickLis
     public void putChess(int x, int y, int order) {
         String temp = x + ":" + y;
         //通过回调方法通知Activity下棋动作
+        if(order == 1) {
+            var.controlBelong = !var.controlBelong;
+        }
         blueToothGameAty.onPutChess(temp + ":" + order);
     }
 
@@ -696,11 +799,11 @@ public class BlueToothMainView extends RelativeLayout implements View.OnClickLis
             return;
         }
         if ((command.equals("HUIQI"))) {
-            if (storageArray.size()==0) {
+            //if (storageArray.size()==0) {
                 //Toast.makeText(getContext(),"开局并不能悔棋",Toast.LENGTH_SHORT).show();
-            }else {
+            //}else {
 
-            }
+            //}
         }
         else if ((command.equals("WHITE"))) {
 
@@ -724,57 +827,321 @@ public class BlueToothMainView extends RelativeLayout implements View.OnClickLis
             }
             else if (order == 1)
             {
+                var.controlBelong = !var.controlBelong;
                 ChangePosition(true, from, to);
+                CheckSiLing();
             }
         }
     }
 
+    public void fightStatus(int index1, int index2)
+    {
+        if (var.ChessPos[index1].getRedOrBlue() == 2) return;
+        Drawable imageIndex1 = var.ItemBox[index1].getDrawable();
+        //Icon imageIndex2 = Variable.ItemBox[index2].getIcon();
+        String name1 = var.ChessPos[index1].getName();
+        String name2 = var.ChessPos[index2].getName();
+        int redorblue1 = var.ChessPos[index1].getRedOrBlue();
+        //int redorblue2 = var.ChessPos[index2].getRedOrBlue();
+        //if (name2 == null) MessageBox.Show("nihao");
+        int casenum = fightResult(name1, name2);
+        if (var.ChessPos[index1].getIsOnTheRoad() && var.ChessPos[index2].getIsOnTheRoad())
+        {
+            List<Position> PList = GetPathList(index1, index2);
+            var.posList = (ArrayList<Position>) PList;
+
+            for (int i = 0; i < var.posList.size() - 2; i++)
+            {
+                //PlaySound.play("mov");
+
+                changeStatus(Coordinary_To_Index(var.posList.get(i).getX(), var.posList.get(i).getY()), Coordinary_To_Index(var.posList.get(i+1).getX(), var.posList.get(i+1).getY()));
+                //PlaySound.Play(@"wav\\MOVE.WAV");
+            }
+            var.ChessPos[Coordinary_To_Index(var.posList.get(var.posList.size() - 2).getX(), var.posList.get(var.posList.size() - 2).getY())].setRedOrBlue(2);
+            var.ChessPos[Coordinary_To_Index(var.posList.get(var.posList.size() - 2).getX(), var.posList.get(var.posList.size() - 2).getY())].setName(null);
+            var.ItemBox[Coordinary_To_Index(var.posList.get(var.posList.size() - 2).getX(), var.posList.get(var.posList.size() - 2).getY())].setImageDrawable(null);
+        }
+        else
+        {
+            var.ChessPos[index1].setRedOrBlue(2);
+            var.ChessPos[index1].setName(null);
+            var.ItemBox[index1].setImageDrawable(null);
+        }
+        //move end
+        switch (casenum)
+        {
+            case 0:
+                var.ItemBox[index2].setImageDrawable(imageIndex1);
+                var.ChessPos[index2].setName(name1);
+                var.ChessPos[index2].setRedOrBlue(redorblue1);
+//                PlaySound.play("mov");
+                break;
+            case 1:
+                //PlaySound.play("junqisldie");
+                break;
+            case 2:
+                var.ItemBox[index2].setImageDrawable(imageIndex1);
+                var.ChessPos[index2].setName(name1);
+                var.ChessPos[index2].setRedOrBlue(redorblue1);
+                //              PlaySound.play("junqieat");
+                break;
+            case 3:
+                var.ItemBox[index2].setImageDrawable(null);
+                var.ChessPos[index2].setName(null);;
+                var.ChessPos[index2].setRedOrBlue(2);
+                //              PlaySound.play("junqitongqu");
+                break;
+            case 4:
+                var.ItemBox[index2].setImageDrawable(imageIndex1);
+                var.ChessPos[index2].setName(name1);
+                var.ChessPos[index2].setRedOrBlue(redorblue1);
+                //               PlaySound.play("win");
+
+                var.isEnd = true;
+                // initChess();,
+                break;
+        }
+    }
+
+    public int fightResult(String str1, String str2)
+    {
+        if (str2 == null) return 0;
+        if (str1 == "zhadan" || str2 == "zhadan" || str1 == str2) return 3;
+        if (str2 == "junqi") return 4;
+        if (comparePower(str1, str2))
+            return 2;
+        else
+            return 1;
+    }
+    public boolean comparePower(String str1, String str2)
+    {
+        String temp = str1;
+        switch (temp)
+        {
+            case "siling":
+                if (str2 == "junqi" || str2 == "junzhang" || str2 == "shizhang" || str2 == "lvzhang" || str2 == "tuanzhang" || str2 == "yingzhang" || str2 == "lianzhang" || str2 == "paizhang" || str2 == "gongbing") return true;
+                else return false;
+            case "junzhang":
+                if (str2 == "junqi" || str2 == "shizhang" || str2 == "lvzhang" || str2 == "tuanzhang" || str2 == "yingzhang" || str2 == "lianzhang" || str2 == "paizhang" || str2 == "gongbing") return true;
+                else return false;
+            case "shizhang":
+                if (str2 == "junqi" || str2 == "lvzhang" || str2 == "tuanzhang" || str2 == "yingzhang" || str2 == "lianzhang" || str2 == "paizhang" || str2 == "gongbing") return true;
+                else return false;
+            case "lvzhang":
+                if (str2 == "junqi" || str2 == "tuanzhang" || str2 == "yingzhang" || str2 == "lianzhang" || str2 == "paizhang" || str2 == "gongbing") return true;
+                else return false;
+            case "tuanzhang":
+                if (str2 == "junqi" || str2 == "yingzhang" || str2 == "lianzhang" || str2 == "paizhang" || str2 == "gongbing") return true;
+                else return false;
+            case "yingzhang":
+                if (str2 == "junqi" || str2 == "lianzhang" || str2 == "paizhang" || str2 == "gongbing") return true;
+                else return false;
+            case "lianzhang":
+                if (str2 == "junqi" || str2 == "paizhang" || str2 == "gongbing") return true;
+                else return false;
+            case "paizhang":
+                if (str2 == "junqi" || str2 == "gongbing") return true;
+                else return false;
+            case "gongbing":
+                if (str2 == "junqi" || str2 == "dilei") return true;
+                else return false;
+            default:
+                System.out.println("comparePower");
+                return false;
+        }
+    }
+
+    public int Coordinary_To_Index(int x, int y)
+    {
+        return x * 5 + y + 1;
+    }
+
+    public void CheckSiLing()
+    {
+        if (!var.isEnd)
+        {
+            boolean flag = false;
+            for (int i = 1; i < 61; i++)
+            {
+                if (var.ChessPos[i].getRedOrBlue() != 0) continue;
+                if (var.ChessPos[i].getName() == "siling")
+                {
+                    flag = true;
+                    break;
+                }
+            }
+            if (!flag)
+            {
+                /* for (int i = 1; i < 61; i++)
+                 {
+                     if(Variable.ChessPos[i].getRedOrBlue()==blank0&&Variable.ChessPos[i].Name=="����")
+                     {
+                         this.pictureBox20.BackgroundImage = Image.FromFile(Variable.redKeyToImage["����"]);
+                         break;
+                     }
+                 }*/
+                if (var.ChessPos[2].getRedOrBlue() == 0&&var.ChessPos[2].getName()=="junqi")
+                {
+                    var.ItemBox[2].setImageResource(var.blueKeyToImage.get("junqi"));
+                }
+
+                else if(var.ChessPos[59].getName()=="junqi")
+                {
+                    var.ItemBox[59].setImageResource(var.blueKeyToImage.get("junqi"));
+                }
+
+            }
+            flag = false;
+            for (int i = 1; i < 61; i++)
+            {
+                if (var.ChessPos[i].getRedOrBlue() != 1) continue;
+                if (var.ChessPos[i].getName() == "siling")
+                {
+                    flag = true;
+                    break;
+                }
+            }
+            if (!flag)
+            {
+                if (var.ChessPos[59].getRedOrBlue() == 1 && var.ChessPos[59].getName() == "junqi")
+                {
+                    var.ItemBox[59].setImageResource(var.redKeyToImage.get("junqi"));
+                }
+                else if(var.ChessPos[2].getName()=="junqi")
+                {
+                    var.ItemBox[2].setImageResource(var.redKeyToImage.get("junqi"));
+                }
+
+            }
+        }
+    }
+    public void DFS(List<Position> PList, int deepth, int from, int to, boolean[][] isVisited)
+    {
+        if (var.forDFS == true) return;
+        Position tmpP = PList.get(deepth);
+        int tmpX = tmpP.getX();
+        int tmpY = tmpP.getY();
+        if (tmpP == var.ChessPos[to])
+        {
+            var.forDFS = true;
+            return;
+        }
+        boolean[][] isVisitedCopied = new boolean[12][5];
+        for (int i = 0; i < 12; i++)
+            for (int j = 0; j < 5; j++)
+            {
+                isVisitedCopied[i][j] = isVisited[i][j];
+            }
+        isVisitedCopied[tmpX][tmpY] = true;
+        if (tmpX - 1 >= 0 &&
+                (
+                        (var.ChessPos[Coordinary_To_Index(tmpX - 1, tmpY)].getName() == null &&
+                                var.ChessPos[Coordinary_To_Index(tmpX - 1, tmpY)].getIsOnTheRoad() == true &&
+                                isVisitedCopied[tmpX - 1][tmpY] == false) ||
+                                Coordinary_To_Index(tmpX - 1, tmpY) == to
+                )
+                )
+        {
+            if (!(tmpX == 6 && (tmpY == 1 || tmpY == 3)))
+            {
+                //isVisited[tmpX - 1, tmpY] = true;
+                PList.add(var.ChessPos[Coordinary_To_Index(tmpX - 1, tmpY)]);
+                DFS(PList, deepth + 1, from, to, isVisitedCopied);
+                isVisitedCopied[tmpX - 1][tmpY] = true;
+            }
+        }
+        if (var.forDFS == true) return;
+        if (tmpX + 1 <= 11 &&
+                (
+                        (var.ChessPos[Coordinary_To_Index(tmpX + 1, tmpY)].getName() == null &&
+                                var.ChessPos[Coordinary_To_Index(tmpX + 1, tmpY)].getIsOnTheRoad() == true &&
+                                isVisitedCopied[tmpX + 1][tmpY] == false) ||
+                                Coordinary_To_Index(tmpX + 1, tmpY) == to
+                )
+                )
+        {
+            if (!(tmpX == 5 && (tmpY == 1 || tmpY == 3)))
+            {
+                PList.add(var.ChessPos[Coordinary_To_Index(tmpX + 1, tmpY)]);
+                DFS(PList, deepth + 1, from, to, isVisitedCopied);
+                isVisitedCopied[tmpX + 1][tmpY] = true;
+            }
+        }
+        if (var.forDFS == true) return;
+        if (tmpY - 1 >= 0 &&
+                (
+                        (
+                                var.ChessPos[Coordinary_To_Index(tmpX, tmpY - 1)].getName() == null &&
+                                        var.ChessPos[Coordinary_To_Index(tmpX, tmpY - 1)].getIsOnTheRoad() == true &&
+                                        isVisitedCopied[tmpX][tmpY - 1] == false) ||
+                                Coordinary_To_Index(tmpX, tmpY - 1) == to
+                )
+                )
+        {
+            PList.add(var.ChessPos[Coordinary_To_Index(tmpX, tmpY - 1)]);
+            DFS(PList, deepth + 1, from, to, isVisitedCopied);
+            isVisitedCopied[tmpX][tmpY - 1] = true;
+        }
+        if (var.forDFS == true) return;
+        if (tmpY + 1 <= 4 &&
+                (
+                        (var.ChessPos[Coordinary_To_Index(tmpX, tmpY + 1)].getName() == null &&
+                                var.ChessPos[Coordinary_To_Index(tmpX, tmpY + 1)].getIsOnTheRoad() == true &&
+                                isVisitedCopied[tmpX][tmpY + 1] == false) ||
+                                Coordinary_To_Index(tmpX, tmpY + 1) == to
+                )
+                )
+        {
+            PList.add(var.ChessPos[Coordinary_To_Index(tmpX, tmpY + 1)]);
+            DFS(PList, deepth + 1, from, to, isVisitedCopied);
+            isVisitedCopied[tmpX][tmpY + 1] = true;
+        }
+        if (var.forDFS == true) return;
+        PList.remove(PList.get(deepth));
+    }
+
+    public List<Position> GetPathList(int index1, int index2)
+    {
+        List<Position> PL = new ArrayList<Position>();
+        if (var.ChessPos[index1].getName() != "gongbing")
+        {
+            int fX, tX, fY, tY;
+            fX = var.ChessPos[index1].getX();
+            fY = var.ChessPos[index1].getY();
+            tX = var.ChessPos[index2].getX();
+            tY = var.ChessPos[index2].getY();
+            if (fX == tX)
+            {
+                int step = fY > tY ? -1 : 1;
+                for (int i = fY; i != tY + step; i += step)
+                {
+                    PL.add(var.ChessPos[Coordinary_To_Index(fX, i)]);
+                }
+            }
+            else
+            {
+                int step = fX > tX ? -1 : 1;
+                for (int i = fX; i != tX + step; i += step)
+                {
+                    PL.add(var.ChessPos[Coordinary_To_Index(i, fY)]);
+                }
+            }
+        }
+        else
+        {
+            var.forDFS = false;
+            boolean[][] isVisited = new boolean[12][5];
+            for (int i = 0; i < 12; i++)
+                for (int j = 0; j < 5; j++)
+                    isVisited[i][j] = false;
+            PL.add(var.ChessPos[index1]);
+            DFS(PL, 0, index1, index2, isVisited);
+        }
+        return PL;
+    }
 
     public interface BlueToothActionListner {
         void  onPutChess(String temp);
         void onBtnPress(int i); //0悔棋  1刷新
-    }
-
-
-    class MyButtonListener implements OnClickListener {
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()) {
-                //如果是悔棋
-/*                case R.id.bluetooth_btn1:
-                    blueToothGameAty.onBtnPress(0);
-                    if (storageArray.size()==0) {
-                        Toast.makeText(getContext(),"开局并不能悔棋",Toast.LENGTH_SHORT).show();
-                    }else {
-                        if (storageArray.size()==1) {
-                            storageArray.pop();
-                            mGridArray = new int[GRID_SIZE - 1][GRID_SIZE - 1];
-                            invalidate();
-                        } else {
-                            String temp = storageArray.pop();
-                            String[] temps = temp.split(":");
-
-                            int a = Integer.parseInt(temps[0]);
-                            int b = Integer.parseInt(temps[1]);
-                            mGridArray[a][b] = 0;
-                            invalidate();
-                        }
-                    }
-                    break;
-                //如果是刷新
-                case R.id.bluetooth_btn2:
-                    blueToothGameAty.onBtnPress(1);
-                    setVisibility(View.VISIBLE);
-                    mStatusTextView.invalidate();
-                    init();
-                    invalidate();
-                    for (int i = 0; i < showtime.length; i++) {
-                        showtime[i] = 0;
-                    }
-                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");
-                    mStatusTextView.setText("蓝牙对战模式 当前时间：" + simpleDateFormat.format(new Date()));
-                    break;*/
-            }
-        }
     }
 }
