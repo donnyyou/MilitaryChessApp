@@ -66,10 +66,10 @@ public class DeviceshowAdapter extends BaseAdapter {
         deviceaddress.setText(device.getDeviceAddress());
 
         device_ifchoiseimg = (ImageView) v.findViewById(R.id.device_ifchoiseimg);
-        device_ifchoise = (TextView) v.findViewById(R.id.device_ifchoise);
+        // device_ifchoise = (TextView) v.findViewById(R.id.device_ifchoise);
         if (device.getBundlestate() == BluetoothDevice.BOND_BONDED) {
             device_ifchoiseimg.setImageResource(R.drawable.ic_check_24dp);
-            device_ifchoise.setText("已配对");
+            // device_ifchoise.setText("已配对");
         }
         return v;
     }
