@@ -5,31 +5,23 @@ package com.donny.militarychessapp.main;
  */
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
-
 
 import com.donny.militarychessapp.R;
 import com.donny.militarychessapp.chess.Position;
 import com.donny.militarychessapp.var.Variable;
 
-
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
-import java.util.Stack;
 
 public class BlueToothMainView extends RelativeLayout implements View.OnClickListener {
 
