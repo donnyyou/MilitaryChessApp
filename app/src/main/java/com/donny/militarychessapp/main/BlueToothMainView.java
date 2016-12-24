@@ -646,19 +646,36 @@ public class BlueToothMainView extends RelativeLayout implements View.OnClickLis
     Button refresh;
 
 
-
-    /**
-     * 点下出现棋子
-     * @param event
-     * @return
-     */
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-
-        return true;
-
+    public void adjust(){
+        PleaseAdjust();
     }
+    public void PleaseAdjust()
+    {
+        //MessageBox.Show("请调整布局");
+        for (int i = 31; i < 61; i++)
+        {
+            if (i == 37 || i == 39 || i == 43 || i == 47 || i == 49) continue;
+            //var.ItemBox[i].setImageResource(var.redKeyToImage.get("blank"));
+        }
+        for (int i = 0; i < 6; i++)
+            for (int j = 0; j < 5; j++)
+            {
+                int from = i * 5 + j + 1;
+                int to = (11 - i) * 5 + j + 1;
+                Drawable fromImage = var.ItemBox[from].getDrawable();
 
+                var.ItemBox[from].setImageDrawable(var.ItemBox[to].getDrawable());
+                var.ItemBox[to].setImageDrawable(fromImage);
+                String name = var.ChessPos[from].getName();
+                var.ChessPos[from].setName(var.ChessPos[to].getName());
+                var.ChessPos[to].setName(name);
+                int redorblue = var.ChessPos[from].getRedOrBlue();
+                var.ChessPos[from].setRedOrBlue(var.ChessPos[to].getRedOrBlue());
+                var.ChessPos[to].setRedOrBlue(redorblue);
+            }
+        //请让用户调整布局
+        //调整完布局请调用netsystem.AdjustDone(string chessboard)，参数是把己方棋盘存成字符串
+    }//联机对战调整布局
 
 
     /**
@@ -692,16 +709,22 @@ public class BlueToothMainView extends RelativeLayout implements View.OnClickLis
         } else {
             Log.d("whalea", "收到的指令:" + command);
             String[] temps = command.split(":");
-            int a = Integer.parseInt(temps[0]);
-            int b = Integer.parseInt(temps[1]);
-            int c = Integer.parseInt(temps[2]);
+            int old = Integer.parseInt(temps[0]);
+            int now = Integer.parseInt(temps[1]);
+            int order = Integer.parseInt(temps[2]);
+            int i = (old - 1) / 5;
+            int j = (old - 1) % 5;
+            int from = (11 - i) * 5 + j + 1;
+            int ii = (now - 1) / 5;
+            int jj = (now - 1) % 5;
+            int to = (11 - ii) * 5 + jj + 1;
 
-            if (c == 0){
-                ChangePosition(false, a, b);
+            if (order == 0){
+                ChangePosition(false, from, to);
             }
-            else if (c == 1)
+            else if (order == 1)
             {
-                ChangePosition(true, a, b);
+                ChangePosition(true, from, to);
             }
         }
     }

@@ -51,6 +51,7 @@ public class BlueToothGameAty extends Activity implements BlueToothMainView.Blue
         gbv.setActionCallbak(this);
 
         if (faqi == false) {
+            gbv.adjust();
             showdialog();
         }
     }
