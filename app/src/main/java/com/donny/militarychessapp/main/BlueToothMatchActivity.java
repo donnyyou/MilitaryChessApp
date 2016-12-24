@@ -16,7 +16,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageButton;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -36,7 +36,7 @@ import java.util.Set;
  */
 public class BlueToothMatchActivity extends Activity {
     //初始化组件
-    private ImageButton btn_saomiao;
+    private Button btn_saomiao;
     private ListView saomiao_lv;
     //用户ListView显示的储存device名字与地址数组
     private ArrayList<Device> deviceNameAndDresss;
@@ -73,7 +73,7 @@ public class BlueToothMatchActivity extends Activity {
 
     private void initView() {
         //得到扫描周围蓝牙设备按钮
-        btn_saomiao = (ImageButton) findViewById(R.id.saomiao_btn);
+        btn_saomiao = (Button) findViewById(R.id.saomiao_btn);
         //扫描周围设备的ListView
         saomiao_lv = (ListView) findViewById(R.id.saomiao_lv);
         //设备信息ArrayList
