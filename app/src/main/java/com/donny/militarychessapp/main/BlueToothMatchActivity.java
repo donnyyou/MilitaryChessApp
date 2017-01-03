@@ -290,12 +290,28 @@ public class BlueToothMatchActivity extends Activity {
         @Override
         public void onClick(View v) {
             ObjectAnimator animator = ObjectAnimator.ofFloat(v,"rotation",0,359);
-            animator.setRepeatCount(12);
+            animator.setRepeatCount(3);
             animator.setDuration(1000);
             animator.start();
 
-
+//自动开始扫描
             isQuering = true;
+            Toast.makeText(BlueToothMatchActivity.this, "开始扫描", Toast.LENGTH_SHORT).show();
+            //清空列表
+            deviceNameAndDresss.clear();
+            //获得已配对的蓝牙设备
+            Set<BluetoothDevice> pairedDevices = bluetoothAdapter.getBondedDevices();
+            if (pairedDevices.size() > 0) {
+                for (BluetoothDevice device : pairedDevices) {
+                    deviceNameAndDresss.add(new Device(device.getName(), device.getAddress(),device.getBondState()));
+                    devices.add(device);
+                }
+            }
+            deviceshowAdapter.setDevices(deviceNameAndDresss);
+            deviceshowAdapter.notifyDataSetChanged();
+            //开始扫描周围的可见的蓝牙设备
+            bluetoothAdapter.startDiscovery();
+           /* isQuering = true;
             Toast.makeText(BlueToothMatchActivity.this, "开始扫描", Toast.LENGTH_SHORT).show();
             //清空列表
             deviceNameAndDresss.clear();
@@ -312,7 +328,7 @@ public class BlueToothMatchActivity extends Activity {
             deviceshowAdapter.setDevices(deviceNameAndDresss);
             deviceshowAdapter.notifyDataSetChanged();
             //开始扫描周围的可见的蓝牙设备
-            bluetoothAdapter.startDiscovery();
+            bluetoothAdapter.startDiscovery();*/
 
         }
     }

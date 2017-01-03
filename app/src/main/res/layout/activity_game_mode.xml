@@ -13,13 +13,12 @@
     android:background="@drawable/lujun">
 
     <ImageView
+        android:id="@+id/imageView"
+        app:srcCompat="@drawable/title1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageView"
-        app:srcCompat="@drawable/title"
-        android:layout_marginTop="44dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:paddingLeft="50dp"
+        android:paddingRight="50dp" />
 
     <Button
         android:text="人 机 对 战"
@@ -29,20 +28,24 @@
         android:layout_alignWithParentIfMissing="false"
         android:layout_centerInParent="false"
         android:keepScreenOn="false"
-        android:textSize="24sp"
+        android:textSize="18sp"
         android:layout_marginBottom="40dp"
         android:layout_above="@+id/button2"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/btnmain1style"
+        android:textColor="@android:color/white" />
 
     <Button
         android:text="联 机 对 战"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:id="@+id/button2"
-        android:textSize="24sp"
+        android:textSize="18sp"
         android:layout_marginBottom="58dp"
         android:layout_alignParentBottom="true"
         android:layout_alignLeft="@+id/button"
-        android:layout_alignStart="@+id/button" />
+        android:layout_alignStart="@+id/button"
+        android:background="@drawable/btnmain2style"
+        android:textColor="@android:color/white" />
 
 </RelativeLayout>
