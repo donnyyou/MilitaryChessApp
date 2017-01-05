@@ -1,5 +1,7 @@
 package com.donny.militarychessapp.main;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
@@ -23,12 +25,20 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-import static android.os.SystemClock.sleep;
-
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Variable var = new Variable();
     final static int INFINITED = 888888888;
+    private Handler uiHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case 1:
+                    ChangePosition(true, msg.arg1, msg.arg2);
+                    break;
+            }
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent=getIntent();
         var.searchDeepth = intent.getIntExtra("level", 1) + 1;
         var.GameMode = intent.getIntExtra("mode", 1);
+        PlaySound.loadSound(getApplicationContext());
 
         var.ItemBox[1] = (ImageView)findViewById(R.id.imageViewC1);
         var.ItemBox[2] = (ImageView)findViewById(R.id.imageViewC2);
@@ -109,13 +120,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(View v) {
                 var.isStart = true;
+                AlphaAnimation animation = new AlphaAnimation(1, 0);
+                animation.setDuration(2000);
+                //((ImageView) findViewById(R.id.))startAnimation(animation);
             }
         });
 
         findViewById(R.id.button3).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // load the layout.
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setMessage("是否确定认输？");
+
+                builder.setTitle("提示");
+
+                builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+
+                        MainActivity.this.finish();
+                    }
+                });
+
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                builder.create().show();
             }
         });
 
@@ -142,7 +179,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     return;
                 }
                 if (icon == null) return;
-                if (!((var.ChessPos[boxId].getRedOrBlue() == 1) ^ var.controlBelong))
+                if (var.ChessPos[boxId].getRedOrBlue() == 1 && var.controlBelong)
                 {
                     var.isClicked = true;
                     var.clickIndex1 = boxId;
@@ -151,6 +188,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 else
                 {
                     var.isClicked = false;
+                    return;
                 }
             }
             else
@@ -659,7 +697,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 var.ItemBox[index2].setImageDrawable(imageIndex1);
                 var.ChessPos[index2].setName(name1);
                 var.ChessPos[index2].setRedOrBlue(redorblue1);
-//                PlaySound.play("mov");
+//                PlaySound.playSound(getApplicationContext(), "mov");
                 break;
             case 1:
                 //PlaySound.play("junqisldie");
@@ -668,7 +706,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 var.ItemBox[index2].setImageDrawable(imageIndex1);
                 var.ChessPos[index2].setName(name1);
                 var.ChessPos[index2].setRedOrBlue(redorblue1);
-  //              PlaySound.play("junqieat");
+//                PlaySound.playSound(getApplicationContext(), "junqieat");
                 break;
             case 3:
                 var.ItemBox[index2].setImageDrawable(null);
@@ -740,14 +778,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (mode == 0) return;
         else if (mode == 1)
         {
-            ChessBoard initBoard = new ChessBoard();
-            for (int i = 1; i < 61; i++)
+            Thread thread=new Thread(new Runnable()
             {
-                if (var.ChessPos[i] != null)
-                    initBoard.pos[i] = var.ChessPos[i].Clone();
-            }
-            TotalValue resultValue = alphaBeta(initBoard, var.searchDeepth, var.controlBelong == false ? 0 : 1, -INFINITED, INFINITED);
-            ChangePosition(var.isStart, resultValue.value_From, resultValue.value_To);
+                @Override
+                public void run()
+                {
+                    ChessBoard initBoard = new ChessBoard();
+                    for (int i = 1; i < 61; i++)
+                    {
+                        if (var.ChessPos[i] != null)
+                            initBoard.pos[i] = var.ChessPos[i].Clone();
+                    }
+                    TotalValue resultValue = alphaBeta(initBoard, var.searchDeepth, var.controlBelong == false ? 0 : 1, -INFINITED, INFINITED);
+                   // ChangePosition(var.isStart, resultValue.value_From, resultValue.value_To);
+                    // TODO Auto-generated method stub
+                    Message message=new Message();
+                    message.what = 1;
+                    message.arg1 = resultValue.value_From;
+                    message.arg2 = resultValue.value_To;
+                    uiHandler.sendMessage(message);
+                }
+            });
+            thread.start();
+
         }
         else if (mode == 2) { }
     }
