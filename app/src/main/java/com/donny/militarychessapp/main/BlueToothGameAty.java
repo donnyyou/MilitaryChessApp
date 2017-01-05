@@ -87,6 +87,10 @@ public class BlueToothGameAty extends Activity implements BlueToothMainView.Blue
             gbv.adjust();
             showdialog();
         }
+        else
+        {
+            gbv.chesshide();
+        }
     }
 
     /**

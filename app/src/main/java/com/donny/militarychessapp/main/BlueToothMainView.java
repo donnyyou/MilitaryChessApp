@@ -748,13 +748,23 @@ public class BlueToothMainView extends RelativeLayout implements View.OnClickLis
         PleaseAdjust();
         var.controlBelong = false;
     }
+    public void chesshide(){
+        ChessHide();
+    }
+    public void ChessHide(){
+        for (int i = 1; i < 31; i++)
+        {
+            if (i == 12 || i == 14 || i == 18 || i == 22 || i == 24) continue;
+            var.ItemBox[i].setImageResource(var.blueKeyToImage.get("blank"));
+        }
+    }
     public void PleaseAdjust()
     {
         //MessageBox.Show("请调整布局");
         for (int i = 31; i < 61; i++)
         {
             if (i == 37 || i == 39 || i == 43 || i == 47 || i == 49) continue;
-            //var.ItemBox[i].setImageResource(var.redKeyToImage.get("blank"));
+            var.ItemBox[i].setImageResource(var.redKeyToImage.get("blank"));
         }
         for (int i = 0; i < 6; i++)
             for (int j = 0; j < 5; j++)
