@@ -142,7 +142,8 @@ public class BlueToothMainView extends RelativeLayout implements View.OnClickLis
             if (var.isStart)
             {
                 if (icon == null) return;
-                if (var.controlBelong)
+                if (var.controlBelong && ((blueToothGameAty.faqi == true && var.ChessPos[boxId].getRedOrBlue() == 1) ||
+                        (blueToothGameAty.faqi == false && var.ChessPos[boxId].getRedOrBlue() == 0)))
                 {
                     var.isClicked = true;
                     var.clickIndex1 = boxId;
@@ -156,9 +157,18 @@ public class BlueToothMainView extends RelativeLayout implements View.OnClickLis
             }
             else
             {
-                var.isClicked = true;
-                var.clickIndex1 = boxId;
-                var.iconIndex1 = icon;
+                if ((blueToothGameAty.faqi == true && var.ChessPos[boxId].getRedOrBlue() == 1) ||
+                        (blueToothGameAty.faqi == false && var.ChessPos[boxId].getRedOrBlue() == 0))
+                {
+                    var.isClicked = true;
+                    var.clickIndex1 = boxId;
+                    var.iconIndex1 = icon;
+                }
+                else{
+                    var.isClicked = false;
+                    return;
+                }
+
             }
 
 
