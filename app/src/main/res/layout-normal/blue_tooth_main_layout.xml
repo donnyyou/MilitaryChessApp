@@ -886,6 +886,37 @@
                 android:layout_height="28dp"
                 android:layout_width="52dp" />
 
+            <ImageView
+                android:layout_height="100dp"
+                app:srcCompat="@drawable/diaodu"
+                android:id="@+id/imageViewReady0"
+                android:layout_width="200dp"
+                android:layout_alignTop="@+id/imageViewC7"
+                android:layout_alignLeft="@+id/imageViewReady1"
+                android:layout_alignStart="@+id/imageViewReady1"
+                android:layout_marginTop="17dp"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:layout_height="100dp"
+                app:srcCompat="@drawable/startgame"
+                android:id="@+id/imageViewStart"
+                android:layout_width="200dp"
+                android:layout_centerVertical="true"
+                android:layout_alignLeft="@+id/imageViewReady1"
+                android:layout_alignStart="@+id/imageViewReady1"
+                android:visibility="visible" />
+
+            <ImageView
+                android:layout_height="100dp"
+                app:srcCompat="@drawable/diaodu"
+                android:id="@+id/imageViewReady1"
+                android:layout_width="200dp"
+                android:layout_marginTop="15dp"
+                android:layout_alignTop="@+id/imageViewC37"
+                android:layout_centerHorizontal="true"
+                android:visibility="invisible" />
+
         </RelativeLayout>
 
         <RelativeLayout
