@@ -11,7 +11,9 @@ import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.donny.militarychessapp.R;
 
@@ -110,6 +112,19 @@ public class BlueToothGameAty extends Activity implements BlueToothMainView.Blue
         connectedThread.write(temp.getBytes());
     }
 
+    public void ReadyAnimate(int i){
+        if (i == 1) {
+            AlphaAnimation animation = new AlphaAnimation(1, 0);
+            animation.setDuration(2000);
+            ((ImageView) findViewById(R.id.imageViewReady0)).startAnimation(animation);
+        }
+        else{
+            AlphaAnimation animation = new AlphaAnimation(1, 0);
+            animation.setDuration(2000);
+            ((ImageView) findViewById(R.id.imageViewReady1)).startAnimation(animation);
+        }
+    }
+
     @Override
     public void onBtnPress(int i) {
         String command;
@@ -117,11 +132,15 @@ public class BlueToothGameAty extends Activity implements BlueToothMainView.Blue
             //如果是悔棋
             command = "RENSHU";
             connectedThread.write(command.getBytes());
-        } else {
+        } else if (i == 1){ //red
             //如果是重玩
-            command = "REFRESH";
+            command = "REDREADY";
             connectedThread.write(command.getBytes());
 
+        }
+        else if (i == 2) {
+            command = "BLUEREADY";
+            connectedThread.write(command.getBytes());
         }
     }
 
