@@ -29,6 +29,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private Variable var = new Variable();
     final static int INFINITED = 888888888;
+    private Handler uiHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case 1:
+                    ChangePosition(true, msg.arg1, msg.arg2);
+                    break;
+            }
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -142,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     return;
                 }
                 if (icon == null) return;
-                if (!((var.ChessPos[boxId].getRedOrBlue() == 1) ^ var.controlBelong))
+                if (var.ChessPos[boxId].getRedOrBlue() == 1 && var.controlBelong)
                 {
                     var.isClicked = true;
                     var.clickIndex1 = boxId;
@@ -151,6 +161,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 else
                 {
                     var.isClicked = false;
+                    return;
                 }
             }
             else
@@ -740,14 +751,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (mode == 0) return;
         else if (mode == 1)
         {
-            ChessBoard initBoard = new ChessBoard();
-            for (int i = 1; i < 61; i++)
+            Thread thread=new Thread(new Runnable()
             {
-                if (var.ChessPos[i] != null)
-                    initBoard.pos[i] = var.ChessPos[i].Clone();
-            }
-            TotalValue resultValue = alphaBeta(initBoard, var.searchDeepth, var.controlBelong == false ? 0 : 1, -INFINITED, INFINITED);
-            ChangePosition(var.isStart, resultValue.value_From, resultValue.value_To);
+                @Override
+                public void run()
+                {
+                    ChessBoard initBoard = new ChessBoard();
+                    for (int i = 1; i < 61; i++)
+                    {
+                        if (var.ChessPos[i] != null)
+                            initBoard.pos[i] = var.ChessPos[i].Clone();
+                    }
+                    TotalValue resultValue = alphaBeta(initBoard, var.searchDeepth, var.controlBelong == false ? 0 : 1, -INFINITED, INFINITED);
+                   // ChangePosition(var.isStart, resultValue.value_From, resultValue.value_To);
+                    // TODO Auto-generated method stub
+                    Message message=new Message();
+                    message.what = 1;
+                    message.arg1 = resultValue.value_From;
+                    message.arg2 = resultValue.value_To;
+                    uiHandler.sendMessage(message);
+                }
+            });
+            thread.start();
+
         }
         else if (mode == 2) { }
     }
