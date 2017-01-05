@@ -4,7 +4,9 @@ package com.donny.militarychessapp.main;
  * Created by youansheng on 2016/12/23.
  */
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -118,12 +120,6 @@ public class BlueToothMainView extends RelativeLayout implements View.OnClickLis
             }
         });
 
-        findViewById(R.id.button3).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // load the layout.
-            }
-        });
     }
 
     @Override
@@ -193,6 +189,7 @@ public class BlueToothMainView extends RelativeLayout implements View.OnClickLis
             System.out.println(var.clickIndex2);
         }
     }
+
 
     public void initall()
     {
@@ -790,12 +787,13 @@ public class BlueToothMainView extends RelativeLayout implements View.OnClickLis
         if ((command==null)) {
             return;
         }
-        if ((command.equals("HUIQI"))) {
+        if ((command.equals("RENSHU"))) {
             //if (storageArray.size()==0) {
                 //Toast.makeText(getContext(),"开局并不能悔棋",Toast.LENGTH_SHORT).show();
             //}else {
 
             //}
+            blueToothGameAty.Finish();
         }
         else if ((command.equals("WHITE"))) {
 

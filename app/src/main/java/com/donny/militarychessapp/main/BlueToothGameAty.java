@@ -10,6 +10,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import com.donny.militarychessapp.R;
 
@@ -49,6 +51,35 @@ public class BlueToothGameAty extends Activity implements BlueToothMainView.Blue
         blueToothGameAty = this;
         gbv = (BlueToothMainView) this.findViewById(R.id.bluetooth_gobangview);
         gbv.setActionCallbak(this);
+        findViewById(R.id.button3).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(BlueToothGameAty.this);
+                builder.setMessage("是否确定认输？");
+
+                builder.setTitle("提示");
+
+                builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        onBtnPress(0);
+                        BlueToothGameAty.this.finish();
+                    }
+                });
+
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                builder.create().show();
+            }
+        });
 
         if (faqi == false) {
             gbv.adjust();
@@ -84,7 +115,7 @@ public class BlueToothGameAty extends Activity implements BlueToothMainView.Blue
         String command;
         if (i == 0) {
             //如果是悔棋
-            command = "HUIQI";
+            command = "RENSHU";
             connectedThread.write(command.getBytes());
         } else {
             //如果是重玩
@@ -214,6 +245,10 @@ public class BlueToothGameAty extends Activity implements BlueToothMainView.Blue
                 Log.d("whalea", "写不出的原因:" + e.getMessage());
             }
         }
+    }
+
+    public void Finish(){
+        BlueToothGameAty.this.finish();
     }
 
 }
