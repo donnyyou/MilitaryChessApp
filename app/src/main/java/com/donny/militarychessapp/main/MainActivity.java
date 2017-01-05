@@ -119,10 +119,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.button4).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(!var.isStart) {
+                    AlphaAnimation animation = new AlphaAnimation(1, 0);
+                    animation.setDuration(2000);
+                    ((ImageView) findViewById(R.id.imageViewReady1)).startAnimation(animation);
+                }
                 var.isStart = true;
-                AlphaAnimation animation = new AlphaAnimation(1, 0);
-                animation.setDuration(2000);
-                //((ImageView) findViewById(R.id.))startAnimation(animation);
             }
         });
 

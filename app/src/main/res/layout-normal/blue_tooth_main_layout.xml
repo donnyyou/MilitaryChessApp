@@ -905,7 +905,7 @@
                 android:layout_centerVertical="true"
                 android:layout_alignLeft="@+id/imageViewReady1"
                 android:layout_alignStart="@+id/imageViewReady1"
-                android:visibility="visible" />
+                android:visibility="invisible" />
 
             <ImageView
                 android:layout_height="100dp"

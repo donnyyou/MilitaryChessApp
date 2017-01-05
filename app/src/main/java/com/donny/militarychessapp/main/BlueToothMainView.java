@@ -44,6 +44,8 @@ public class BlueToothMainView extends RelativeLayout implements View.OnClickLis
         ((ImageView)findViewById(R.id.imageViewUser1)).setImageResource(R.drawable.user1);
         ((ImageView)findViewById(R.id.imageViewUser2)).setImageResource(R.drawable.user2);
         ((ImageView)findViewById(R.id.imageViewChessBoard)).setImageResource(R.drawable.board720p);
+        ((ImageView)findViewById(R.id.imageViewReady1)).setImageResource(R.drawable.diaodu);
+        ((ImageView)findViewById(R.id.imageViewReady0)).setImageResource(R.drawable.diaodu);
 
         var.ItemBox[1] = (ImageView)findViewById(R.id.imageViewC1);
         var.ItemBox[2] = (ImageView)findViewById(R.id.imageViewC2);
@@ -116,7 +118,14 @@ public class BlueToothMainView extends RelativeLayout implements View.OnClickLis
         findViewById(R.id.button4).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(!var.isStart) {
+                    AlphaAnimation animation = new AlphaAnimation(1, 0);
+                    animation.setDuration(2000);
+                    ((ImageView) findViewById(R.id.imageViewReady1)).startAnimation(animation);
+                    blueToothGameAty.onBtnPress(1);
+                }
                 var.isStart = true;
+
             }
         });
 
@@ -795,10 +804,10 @@ public class BlueToothMainView extends RelativeLayout implements View.OnClickLis
             //}
             blueToothGameAty.Finish();
         }
-        else if ((command.equals("WHITE"))) {
-
-        } else if (command.equals("BLACK")) {
-
+        else if ((command.equals("REDREADY"))) {
+            blueToothGameAty.ReadyAnimate(1);
+        } else if (command.equals("BLUEREADY")) {
+            //blueToothGameAty.ReadyAnimate(2);
         } else {
             Log.d("whalea", "收到的指令:" + command);
             String[] temps = command.split(":");

@@ -31,4 +31,5 @@ public class Variable {
     public int threadNum = 0;
     public ArrayList<Position> posList = new ArrayList<Position>();
     public ImageView picbox; //= new ImageView(ContextUtil.getInstance());
+    public boolean otherReady = false;
 }
